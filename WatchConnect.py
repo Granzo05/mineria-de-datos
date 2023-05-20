@@ -14,7 +14,7 @@ class EmpleadosData:
 
     def create_tables(self):
         self.cursor.execute('''
-            CREATE TABLE IF NOT EXISTS usuarios (
+            CREATE TABLE IF NOT EXISTS empleados (
                 id INTEGER PRIMARY KEY,
                 nombre TEXT,
                 apellido TEXT,
@@ -24,7 +24,7 @@ class EmpleadosData:
         ''')
 
         self.cursor.execute('''
-            CREATE TABLE IF NOT EXISTS usuarios_parametros (
+            CREATE TABLE IF NOT EXISTS empleados_parametros (
                 id INTEGER PRIMARY KEY,
                 fecha TEXT,
                 pasos INTEGER,
@@ -33,12 +33,48 @@ class EmpleadosData:
                 ventas INTEGER,
                 nivel_estres INTEGER,
                 empleado_id INTEGER,
-                FOREIGN KEY(empleado_id) REFERENCES usuarios(id)
+                FOREIGN KEY(empleado_id) REFERENCES empleados(id)
             )
         ''')
 
-    def buscar_usuario(self, nombre, apellido, cargo, turno):
-        query = "SELECT * FROM usuarios WHERE nombre = ? AND apellido = ? AND cargo = ? AND turno = ?"
+        self.cursor.execute('''
+                    CREATE TABLE IF NOT EXISTS usuarios (
+                        id INTEGER PRIMARY KEY,
+                        nombre_usuario TEXT,
+                        contraseña TEXT,
+                        privilegios TEXT,
+                    )
+                ''')
+
+
+    def agregar_usuario(self, nombre, contraseña, privilegios):
+        query = "INSERT INTO usuarios VALUES (?, ?, ?, ?, ?)"
+        self.cursor.execute(query, (nombre, contraseña, privilegios))
+
+        self.conn.commit()
+
+    def buscar_usuario(self, nombre, contraseña):
+        query = "SELECT * FROM usuarios WHERE nombre = ? AND contraseña = ?"
+        self.cursor.execute(query, (nombre, contraseña))
+
+        resultados = self.cursor.fetchall()
+
+        if resultados:
+            return resultados
+        else:
+            return None
+
+
+        #Usar este metodo en la interfaz grafica para poder iniciar sesion o mostrar un cartel de error
+        #resultados = buscar_usuario(nombre, contraseña)
+        #if resultados is None:
+        #    print("El usuario no existe")
+        #else:
+        #    for row in resultados:
+        #        print(row)
+
+    def buscar_empleado(self, nombre, apellido, cargo, turno):
+        query = "SELECT * FROM empleados WHERE nombre = ? AND apellido = ? AND cargo = ? AND turno = ?"
         self.cursor.execute(query, (nombre, apellido, cargo, turno))
 
         resultados = self.cursor.fetchall()
@@ -46,11 +82,11 @@ class EmpleadosData:
         for row in resultados:
             print(row)
 
-    def agregar_usuario(self, nombre, apellido, cargo, turno):
-        id_usuario = str(uuid.uuid4())
+    def agregar_empleado(self, nombre, apellido, cargo, turno):
+        id_empleado = str(uuid.uuid4())
 
-        query = "INSERT INTO usuarios VALUES (?, ?, ?, ?, ?)"
-        self.cursor.execute(query, (id_usuario, nombre, apellido, cargo, turno))
+        query = "INSERT INTO empleados VALUES (?, ?, ?, ?, ?)"
+        self.cursor.execute(query, (id_empleado, nombre, apellido, cargo, turno))
 
         self.conn.commit()
 
@@ -59,7 +95,7 @@ class EmpleadosData:
 
         #client = Inicializar la biblioteca de sdk para acceder al reloj
 
-        #client.autenticacion: Ver como autenticar cada usuario al que se acceda para ver de quien son los datos
+        #client.autenticacion: Ver como autenticar cada empleado al que se acceda para ver de quien son los datos
 
         #activity_data = client.activity.get_activity_data() : obtiene todos los datos
 
@@ -73,7 +109,7 @@ class EmpleadosData:
             empleado_id = self.get_random_user_id()
 
             self.cursor.execute('''
-                INSERT INTO usuarios_parametros (
+                INSERT INTO empleados_parametros (
                     id, fecha, pasos, horas, asistencia, ventas, nivel_estres, empleado_id
                 )
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
@@ -82,7 +118,7 @@ class EmpleadosData:
         self.conn.commit()
 
     def get_random_user_id(self):
-        self.cursor.execute("SELECT id FROM usuarios")
+        self.cursor.execute("SELECT id FROM empleados")
         resultados = self.cursor.fetchall()
         ids = [row[0] for row in resultados]
         return np.random.choice(ids)
