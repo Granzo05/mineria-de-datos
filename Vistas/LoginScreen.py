@@ -1,9 +1,7 @@
-import logging
-
 from PyQt5 import uic, QtWidgets
 
 from Database.EmpleadosDatabase import EmpleadosDatabase
-from Database.EmpleadosScreen import EmpleadosScreen
+from Vistas.EmpleadosScreen import EmpleadosScreen
 
 
 class LoginScreen(QtWidgets.QMainWindow):

@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets
 
-from Database.LoginScreen import LoginScreen
+from Vistas.LoginScreen import LoginScreen
 from Database.EmpleadosDatabase import EmpleadosDatabase
 
 

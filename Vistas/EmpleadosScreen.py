@@ -1,7 +1,7 @@
 from PyQt5 import QtWidgets, uic
 
 from Database.EmpleadosDatabase import EmpleadosDatabase
-from Database.ResultadosBusqueda import ResultadosBusqueda
+from Vistas.ResultadosBusqueda import ResultadosBusqueda
 
 
 class EmpleadosScreen(QtWidgets.QMainWindow):
