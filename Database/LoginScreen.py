@@ -1,38 +1,40 @@
-from PyQt5 import uic
-from PyQt5.uic.properties import QtWidgets
+import logging
 
-from EmpleadosScreen import EmpleadosScreen
+from PyQt5 import uic, QtWidgets
+
+from Database.EmpleadosDatabase import EmpleadosDatabase
+from Database.EmpleadosScreen import EmpleadosScreen
 
 
-class login_screen(QtWidgets.QMainWindow):
-    def __init__(self, empleados_data):
-        super(login_screen, self).__init__()
-        uic.loadUi("login.ui", self)
+class LoginScreen(QtWidgets.QMainWindow):
+    def __init__(self):
+        super(LoginScreen, self).__init__()
+        self.window2 = None
+        uic.loadUi("Interfaz/login.ui", self)
 
-        self.empleados_data = empleados_data
-
-        # Conectar señales y slots
+        # Conectar señales
         self.iniciaSesion.clicked.connect(self.buscar_usuario_login)
         self.salir.clicked.connect(self.salir_click)
 
-        # Ocultar el QLabel "usuario_contra_inc" inicialmente
         self.usuario_contra_inc.setVisible(False)
 
     def buscar_usuario_login(self):
         nombre = self.usuarioJefe.text()
         contrasenia = self.contraJefe.text()
 
-        resultados = self.empleados_data.buscar_usuario(nombre, contrasenia)
+        empleados_data = EmpleadosDatabase()
 
-        if resultados is None:
-            self.usuario_contra_inc.setVisible(True)
-        else:
+        if empleados_data.buscar_usuario(nombre, contrasenia):
+            print("Inicio de sesión exitoso")
             self.abrir_menu_empleados()
+        else:
+            self.usuario_contra_inc.setVisible(True)
+            print("Usuario o contraseña incorrectos")
 
     def salir_click(self):
         self.close()
 
     def abrir_menu_empleados(self):
         self.hide()
-        window2 = EmpleadosScreen(self.empleados_data)
-        window2.show()
+        self.window2 = EmpleadosScreen()
+        self.window2.show()

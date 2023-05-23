@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QDialog, QTableWidgetItem
 class ResultadosBusqueda(QDialog):
     def __init__(self, resultados):
         super(ResultadosBusqueda, self).__init__()
-        uic.loadUi("tablaDatosEmpleados.ui", self)
+        uic.loadUi("Interfaz/tabla.ui", self)
 
         # Configurar la tabla con los resultados de la búsqueda
         self.tableWidget.setColumnCount(7)

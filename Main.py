@@ -1,16 +1,18 @@
 from PyQt5 import QtWidgets
 
-from Database.LoginScreen import LoginWindow
-from Database.RelojesData import empleados_data
+from Database.LoginScreen import LoginScreen
+from Database.EmpleadosDatabase import EmpleadosDatabase
 
 
 def main():
     app = QtWidgets.QApplication([])
-    window = LoginWindow()
+    window = LoginScreen()
     window.show()
-    app.exec()
+    app.exec_()
 
-    empleados_data.close_connection()
+    empleados_database = EmpleadosDatabase()
+    empleados_database.close_connection()
+
 
 if __name__ == "__main__":
     main()

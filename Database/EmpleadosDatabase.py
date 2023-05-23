@@ -1,48 +1,11 @@
 import sqlite3
 import uuid
 
+
 class EmpleadosDatabase:
     def __init__(self):
         self.conn = sqlite3.connect('mineria_de_datos.db')
         self.cursor = self.conn.cursor()
-        self.create_tables()
-
-    def create_tables(self):
-        """
-        Crea las tablas en la base de datos si no existen.
-        """
-        self.cursor.execute('''
-            CREATE TABLE IF NOT EXISTS empleados (
-                id INTEGER PRIMARY KEY,
-                nombre TEXT,
-                apellido TEXT,
-                cargo TEXT,
-                turno TEXT
-            )
-        ''')
-
-        self.cursor.execute('''
-            CREATE TABLE IF NOT EXISTS empleados_parametros (
-                id INTEGER PRIMARY KEY,
-                fecha TEXT,
-                pasos INTEGER,
-                horas INTEGER,
-                asistencia TEXT,
-                ventas INTEGER,
-                nivel_estres INTEGER,
-                empleado_id INTEGER,
-                FOREIGN KEY(empleado_id) REFERENCES empleados(id)
-            )
-        ''')
-
-        self.cursor.execute('''
-            CREATE TABLE IF NOT EXISTS usuarios (
-                id INTEGER PRIMARY KEY,
-                nombre_usuario TEXT,
-                contraseña TEXT,
-                privilegios TEXT
-            )
-        ''')
 
     def agregar_usuario(self, nombre, contrasenia, privilegios):
         """
@@ -59,25 +22,18 @@ class EmpleadosDatabase:
         self.conn.commit()
 
     def buscar_usuario(self, nombre, contrasenia):
-        """
-        Busca un usuario en la tabla de usuarios.
+        query = "SELECT * FROM usuarios WHERE nombre_usuario = ? AND contraseña = ?"
 
-        Args:
-            nombre (str): Nombre del usuario.
-            contrasenia (str): Contraseña del usuario.
+        try:
+            self.cursor.execute(query, (nombre, contrasenia))
+            resultado = self.cursor.fetchone()
 
-        Returns:
-            list: Lista de resultados de la búsqueda.
-        """
-        query = "SELECT * FROM usuarios WHERE nombre = ? AND contraseña = ?"
-        self.cursor.execute(query, (nombre, contrasenia))
-
-        resultados = self.cursor.fetchall()
-
-        if resultados:
-            return resultados
-        else:
-            return None
+            if resultado is not None:
+                return True
+            else:
+                return False
+        except Exception as e:
+            print("Error al ejecutar la consulta:", e)
 
     def buscar_empleado(self, nombre=None, apellido=None, cargo=None, turno=None):
         """
