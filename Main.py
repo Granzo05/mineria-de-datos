@@ -1,12 +1,14 @@
 from PyQt5 import QtWidgets
 
+from Vistas.EmpleadosScreen import EmpleadosScreen
 from Vistas.LoginScreen import LoginScreen
 from Database.EmpleadosDatabase import EmpleadosDatabase
 
 
 def main():
     app = QtWidgets.QApplication([])
-    window = LoginScreen()
+    #window = LoginScreen()
+    window = EmpleadosScreen()
     window.show()
     app.exec_()
 

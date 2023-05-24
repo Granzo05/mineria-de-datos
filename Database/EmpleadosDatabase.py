@@ -3,7 +3,7 @@ import sqlite3
 
 class EmpleadosDatabase:
     def __init__(self):
-        self.conn = sqlite3.connect('mineria_de_datos.db')
+        self.conn = sqlite3.connect('Database/mineria_de_datos.db')
         self.cursor = self.conn.cursor()
 
     def agregar_usuario(self, nombre, contrasenia, privilegios):
@@ -11,19 +11,51 @@ class EmpleadosDatabase:
         self.cursor.execute(query, (nombre, contrasenia, privilegios))
         self.conn.commit()
 
-    def buscar_datos_empleado(self, id, nombre, apellido):
-        query = "SELECT * FROM empleados WHERE id = ? AND nombre = ? AND apellido = ?"
+    def buscar_usuario(self, nombre, contrasenia):
+        query = "SELECT * FROM usuarios WHERE nombre_usuario = ? AND contraseña = ?"
 
         try:
-            self.cursor.execute(query, (id, nombre, apellido))
+            self.cursor.execute(query, (nombre, contrasenia))
+            resultado = self.cursor.fetchone()
+
+            if resultado is not None:
+                return True
+            else:
+                return False
+        except Exception as e:
+            print("Error al ejecutar la consulta:", e)
+
+    def buscar_datos_empleado(self, id, nombre, apellido, cargo, turno):
+        query = "SELECT * FROM empleados WHERE id = ?"
+        parameters = [id]
+
+        if nombre:
+            query += " AND nombre = ?"
+            parameters.append(nombre)
+
+        if apellido:
+            query += " AND apellido = ?"
+            parameters.append(apellido)
+
+        if cargo:
+            query += " AND cargo = ?"
+            parameters.append(cargo)
+
+        if turno:
+            query += " AND turno = ?"
+            parameters.append(turno)
+
+        try:
+            self.cursor.execute(query, parameters)
             resultados = self.cursor.fetchall()
             return resultados
         except Exception as e:
-            print("Empleado no encontrado:", e)
+            print("Error al buscar los datos del empleado:", e)
+            return []  # Devuelve una lista vacía en caso de excepción
 
     def buscar_rendimiento_empleado(self, id, fecha):
-        query = "SELECT * FROM empleados_parametros WHERE id = ? AND fecha = ?"
-
+        query = "SELECT * FROM empleados_parametros WHERE empleado_id = ? AND fecha = ?"
+        print(id, fecha)
         try:
             self.cursor.execute(query, (id, fecha))
             resultados = self.cursor.fetchall()
