@@ -12,6 +12,5 @@ Integrantes:
 El programa de "Rendimiento Laboral" es una aplicación desarrollada en el entorno 
 de desarrollo integrado (IDE) PyCharm, utilizando el lenguaje de programación Python. 
 Su principal objetivo es evaluar la productividad de los empleados a partir de datos 
-recopilados sobre sus actividades diarias. Los pasos de los empleados, las horas trabajadas, 
-las ventas realizadas y la asistencia son algunos de los datos considerados 
+recopilados sobre sus actividades diarias. Los pasos de los empleados, las horas trabajadas y la asistencia son algunos de los datos considerados 
 para calcular el rendimiento.
