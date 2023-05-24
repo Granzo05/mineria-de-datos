@@ -185,25 +185,12 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
      <rect>
       <x>510</x>
       <y>260</y>
-      <width>101</width>
-      <height>31</height>
+      <width>111</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="text">
      <string>Cargar</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="buscarEmpleado">
-    <property name="geometry">
-     <rect>
-      <x>510</x>
-      <y>310</y>
-      <width>101</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Buscar empleado</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_7">
@@ -326,9 +313,9 @@ color: rgb(255, 0, 0);</string>
     <property name="geometry">
      <rect>
       <x>510</x>
-      <y>360</y>
-      <width>101</width>
-      <height>31</height>
+      <y>340</y>
+      <width>111</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="text">
@@ -339,9 +326,9 @@ color: rgb(255, 0, 0);</string>
     <property name="geometry">
      <rect>
       <x>510</x>
-      <y>410</y>
-      <width>101</width>
-      <height>31</height>
+      <y>420</y>
+      <width>111</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="text">
@@ -359,6 +346,41 @@ color: rgb(255, 0, 0);</string>
     </property>
     <property name="styleSheet">
      <string notr="true">border-radius:10px;</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_11">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>440</y>
+      <width>161</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 15pt &quot;Bell MT&quot;;</string>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;CARGO:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="cargoEmpleado">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>460</y>
+      <width>201</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius:10px;</string>
+    </property>
+    <property name="echoMode">
+     <enum>QLineEdit::Normal</enum>
+    </property>
+    <property name="placeholderText">
+     <string> Cargo del empleado</string>
     </property>
    </widget>
   </widget>
