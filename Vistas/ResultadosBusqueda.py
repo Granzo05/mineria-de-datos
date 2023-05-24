@@ -3,17 +3,13 @@ from PyQt5.QtWidgets import QDialog, QTableWidgetItem
 
 
 class ResultadosBusqueda(QDialog):
-    def __init__(self, resultados, mostrar_columnas):
-        global columnas
+    def __init__(self, resultados):
         super(ResultadosBusqueda, self).__init__()
         uic.loadUi("Interfaz/tabla.ui", self)
 
         print(resultados)
         # Establecer las columnas a mostrar en la tabla
-        if mostrar_columnas == "datos_empleado":
-            columnas = ["ID", "NOMBRE", "APELLIDO", "CARGO", "TURNO"]
-        elif mostrar_columnas == "rendimiento":
-            columnas = ["ID", "FECHA", "PASOS", "HORAS DE TRABAJO", "ASISTENCIA", "NIVEL DE ESTRÉS", "ID EMPLEADO"]
+        columnas = ["ID", "FECHA", "PASOS", "HORAS DE TRABAJO", "ASISTENCIA", "NIVEL DE ESTRÉS", "ID EMPLEADO"]
 
         self.tableWidget.setColumnCount(len(columnas))
         self.tableWidget.setHorizontalHeaderLabels(columnas)
