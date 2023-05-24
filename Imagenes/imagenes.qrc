@@ -1,0 +1,10 @@
+<RCC>
+  <qresource prefix="iconos">
+    <file>9330926.png</file>
+    <file>apellido.png</file>
+    <file>cargo.png</file>
+    <file>icono lupa.png</file>
+    <file>id.png</file>
+    <file>turno.png</file>
+  </qresource>
+</RCC>
