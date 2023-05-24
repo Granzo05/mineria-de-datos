@@ -255,35 +255,6 @@ color: rgb(255, 0, 0);</string>
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QProgressBar" name="progressBar">
-    <property name="geometry">
-     <rect>
-      <x>330</x>
-      <y>530</y>
-      <width>118</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="value">
-     <number>0</number>
-    </property>
-   </widget>
-   <widget class="QLabel" name="cargar_Buscar">
-    <property name="geometry">
-     <rect>
-      <x>260</x>
-      <y>550</y>
-      <width>241</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">font: 14pt &quot;Bell MT&quot;;</string>
-    </property>
-    <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="cerrarSesion">
     <property name="geometry">
      <rect>
@@ -335,25 +306,6 @@ color: rgb(255, 0, 0);</string>
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;TURNO:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="fechaEmpleado">
-    <property name="geometry">
-     <rect>
-      <x>280</x>
-      <y>420</y>
-      <width>201</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border-radius:10px;</string>
-    </property>
-    <property name="echoMode">
-     <enum>QLineEdit::Normal</enum>
-    </property>
-    <property name="placeholderText">
-     <string> Fecha de trabajo del empleado</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_10">
     <property name="geometry">
      <rect>
@@ -394,6 +346,19 @@ color: rgb(255, 0, 0);</string>
     </property>
     <property name="text">
      <string>Buscar rendimiento</string>
+    </property>
+   </widget>
+   <widget class="QDateEdit" name="fechaEmpleado">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>420</y>
+      <width>201</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius:10px;</string>
     </property>
    </widget>
   </widget>
