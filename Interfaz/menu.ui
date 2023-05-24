@@ -193,7 +193,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
      <string>Cargar</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="buscar">
+   <widget class="QPushButton" name="buscarEmpleado">
     <property name="geometry">
      <rect>
       <x>510</x>
@@ -203,7 +203,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
      </rect>
     </property>
     <property name="text">
-     <string>Buscar</string>
+     <string>Buscar empleado</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_7">
