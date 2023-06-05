@@ -1,15 +1,53 @@
 import sqlite3
 
+from PyQt5 import QtCore
+from PyQt5.QtWidgets import QTableWidgetItem
+
 
 class EmpleadosDatabase:
     def __init__(self):
-        self.conn = sqlite3.connect('Database/mineria_de_datos.db')
-        self.cursor = self.conn.cursor()
+        self.db_path = 'Database/mineria_de_datos.db'
 
-    def agregar_usuario(self, nombre, contrasenia, privilegios):
-        query = "INSERT INTO usuarios VALUES (?, ?, ?)"
-        self.cursor.execute(query, (nombre, contrasenia, privilegios))
-        self.conn.commit()
+    def __enter__(self):
+        self.conn = sqlite3.connect(self.db_path)
+        self.cursor = self.conn.cursor()
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.cursor.close()
+        self.conn.close()
+
+    def obtener_empleados(self, tablaDatos):
+        try:
+            query = "SELECT fecha, pasos_realizados, horas_de_trabajo, asistencia, nivel_estres, empleado_id FROM empleados_parametros"
+            self.cursor.execute(query)
+            resultados = self.cursor.fetchall()
+
+            # Limpiar la tabla antes de agregar nuevos datos
+            tablaDatos.clearContents()
+            tablaDatos.setRowCount(0)
+
+            # Establecer las columnas a mostrar en la tabla
+            columnas = ["FECHA", "PASOS", "HORAS TRABAJADAS", "ASISTENCIA", "NIVEL DE ESTRES", "ID EMPLEADO"]
+            tablaDatos.setColumnCount(len(columnas))
+            tablaDatos.setHorizontalHeaderLabels(columnas)
+
+            # Calcular la cantidad de filas necesarias para mostrar los resultados
+            num_rows = len(resultados)
+
+            # Establecer la cantidad de filas en la tabla
+            tablaDatos.setRowCount(num_rows)
+
+            for row, resultado in enumerate(resultados):
+                for col, valor in enumerate(resultado):
+                    item = QTableWidgetItem(str(valor))
+                    tablaDatos.setItem(row, col, item)
+
+            # Ajustar el tamaño de las columnas para que se ajusten al contenido
+            tablaDatos.resizeColumnsToContents()
+
+        except Exception as e:
+            print("Error al obtener los empleados:", str(e))
 
     def buscar_usuario(self, nombre, contrasenia):
         query = "SELECT * FROM usuarios WHERE nombre_usuario = ? AND contraseña = ?"
@@ -25,7 +63,7 @@ class EmpleadosDatabase:
         except Exception as e:
             print("Error al ejecutar la consulta:", e)
 
-    def buscar_datos_empleado(self, id, nombre, apellido, cargo, turno):
+    def buscar_datos_empleado(self, id, nombre, apellido, cargo, turno, errorEmpleado):
         query = "SELECT * FROM empleados WHERE id = ?"
         parameters = [id]
 
@@ -50,29 +88,72 @@ class EmpleadosDatabase:
             resultados = self.cursor.fetchall()
             return resultados
         except Exception as e:
-            print("Error al buscar los datos del empleado:", e)
-            return []  # Devuelve una lista vacía en caso de excepción
+            errorEmpleado.setText("Error al buscar los datos del empleado")
+            errorEmpleado.show()
+            # Configurar el temporizador para ocultar el label después de 2 segundos
+            timer = QtCore.QTimer()
+            timer.singleShot(2000, errorEmpleado.hide)
+            print("Error al buscar los datos del empleado:", str(e))
+            return []
 
-    def buscar_rendimiento_empleado(self, id, fecha):
-        query = "SELECT * FROM empleados_parametros WHERE empleado_id = ? AND fecha = ?"
-        print(id, fecha)
+    def buscar_rendimiento_empleado(self, nombre=None, apellido=None, cargo=None, turno=None, idRendimiento=None,
+                                    fecha_input=None, idEmpleado=None):
+        query = "SELECT * FROM empleados WHERE id = ?"
+        params = [id]
+
+        if nombre is not None:
+            query += " AND nombre = ?"
+            params.append(nombre)
+
+        if apellido is not None:
+            query += " AND apellido = ?"
+            params.append(apellido)
+
+        if cargo is not None:
+            query += " AND cargo = ?"
+            params.append(cargo)
+
+        if turno is not None:
+            query += " AND turno = ?"
+            params.append(turno)
+
+        if idRendimiento is not None:
+            query += " AND idRendimiento = ?"
+            params.append(idRendimiento)
+
+        if fecha_input is not None:
+            fecha_qdate = QtCore.QDate.fromString(fecha_input, "dd/MM/yyyy")
+            if fecha_qdate.isValid() and fecha_qdate.dayOfWeek() < 6:
+                fecha_formateada = fecha_qdate.toString("yyyy-MM-dd")
+                fecha_final = fecha_formateada.replace("/", "-")
+                query += " AND fecha = ?"
+                params.append(fecha_final)
+            else:
+                return []
+
+        if idEmpleado is not None:
+            query += " AND empleado_id = ?"
+            params.append(idEmpleado)
+
         try:
-            self.cursor.execute(query, (id, fecha))
+            self.cursor.execute(query, params)
             resultados = self.cursor.fetchall()
-            return resultados
         except Exception as e:
             print("Error al buscar los datos del empleado en la base de datos:", str(e))
             return []
 
-    def agregar_empleado(self, nombre, apellido, cargo, turno):
+    def agregar_empleado(self, nombre, apellido, cargo, turno, errorEmpleado):
         query = "INSERT INTO empleados (nombre, apellido, cargo, turno) VALUES (?, ?, ?, ?)"
-
         try:
             self.cursor.execute(query, (nombre, apellido, cargo, turno))
             self.conn.commit()
-            print("Empleado agregado correctamente a la base de datos.")
         except Exception as e:
-            print("Error al agregar el empleado a la base de datos:", str(e))
+            errorEmpleado.setText("Error al agregar el empleado")
+            errorEmpleado.show()
+            # Configurar el temporizador para ocultar el label después de 2 segundos
+            timer = QtCore.QTimer()
+            timer.singleShot(2000, errorEmpleado.hide)
+            print("Error al agregar el empleado:", str(e))
 
     def close_connection(self):
         self.cursor.close()

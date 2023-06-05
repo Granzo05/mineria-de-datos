@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MenuPpal</class>
- <widget class="QMainWindow" name="MenuPpal">
+ <class>MenuLogin</class>
+ <widget class="QMainWindow" name="MenuLogin">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1080</width>
+    <height>720</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>800</width>
-    <height>600</height>
+    <width>0</width>
+    <height>0</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>800</width>
-    <height>600</height>
+    <width>1920</width>
+    <height>1080</height>
    </size>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>MDD - Inicio sesión</string>
   </property>
   <property name="styleSheet">
    <string notr="true">QWidget#centralwidget{
@@ -33,14 +33,14 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>180</x>
-      <y>30</y>
-      <width>421</width>
+      <x>250</x>
+      <y>40</y>
+      <width>571</width>
       <height>101</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 36pt &quot;Bauhaus 93&quot;;</string>
+     <string notr="true">font: 50pt &quot;Bauhaus 93&quot;;</string>
     </property>
     <property name="text">
      <string>MINERIA DE DATOS</string>
@@ -49,10 +49,10 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>490</x>
-      <y>70</y>
+      <x>720</x>
+      <y>100</y>
       <width>121</width>
-      <height>91</height>
+      <height>51</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -65,14 +65,14 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>110</y>
+      <x>320</x>
+      <y>170</y>
       <width>421</width>
       <height>101</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 15pt &quot;Bell MT&quot;;</string>
+     <string notr="true">font: 20pt &quot;Bell MT&quot;;</string>
     </property>
     <property name="text">
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;¡BIENVENIDO!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -81,8 +81,8 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
    <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>220</y>
+      <x>360</x>
+      <y>300</y>
       <width>121</width>
       <height>61</height>
      </rect>
@@ -97,8 +97,8 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>260</y>
+      <x>320</x>
+      <y>340</y>
       <width>161</width>
       <height>61</height>
      </rect>
@@ -113,14 +113,14 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
    <widget class="QLabel" name="label_6">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>170</y>
+      <x>320</x>
+      <y>230</y>
       <width>421</width>
       <height>31</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 15pt &quot;Bell MT&quot;;</string>
+     <string notr="true">font: 17pt &quot;Bell MT&quot;;</string>
     </property>
     <property name="text">
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Por favor, ingrese un usuario:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -129,8 +129,8 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
    <widget class="QLineEdit" name="usuarioJefe">
     <property name="geometry">
      <rect>
-      <x>340</x>
-      <y>240</y>
+      <x>490</x>
+      <y>320</y>
       <width>201</width>
       <height>21</height>
      </rect>
@@ -145,8 +145,8 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
    <widget class="QLineEdit" name="contraJefe">
     <property name="geometry">
      <rect>
-      <x>340</x>
-      <y>280</y>
+      <x>490</x>
+      <y>360</y>
       <width>201</width>
       <height>21</height>
      </rect>
@@ -164,8 +164,8 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
    <widget class="QPushButton" name="iniciaSesion">
     <property name="geometry">
      <rect>
-      <x>400</x>
-      <y>320</y>
+      <x>550</x>
+      <y>400</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -180,8 +180,8 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
    <widget class="QPushButton" name="salir">
     <property name="geometry">
      <rect>
-      <x>670</x>
-      <y>500</y>
+      <x>980</x>
+      <y>670</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -196,8 +196,8 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
    <widget class="QLabel" name="usuario_contra_inc">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>210</y>
+      <x>320</x>
+      <y>280</y>
       <width>421</width>
       <height>41</height>
      </rect>
@@ -207,7 +207,45 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
 font: 12pt &quot;Bell MT&quot;;</string>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;¡ERROR! Usuario o contraseña incorrectos&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+   <widget class="QProgressBar" name="barraInicio">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>500</y>
+      <width>181</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QProgressBar{
+	border-radius:25px;
+	border: 1px solid #00007f;
+}</string>
+    </property>
+    <property name="value">
+     <number>0</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="iniciando">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>510</y>
+      <width>181</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 15pt &quot;Bell MT&quot;;</string>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;INICIANDO...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
   </widget>
