@@ -145,19 +145,6 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
      </property>
     </column>
    </widget>
-   <widget class="QCheckBox" name="filtroId">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>356</y>
-      <width>91</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Id</string>
-    </property>
-   </widget>
    <widget class="QCheckBox" name="filtroNombre">
     <property name="geometry">
      <rect>
@@ -221,25 +208,6 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
     </property>
     <property name="text">
      <string>Filtros</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="buscarEmpleado">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>300</y>
-      <width>201</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border-radius:10px;</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="placeholderText">
-     <string> Buscar empleado (ID, Nombre, etc.)</string>
     </property>
    </widget>
    <widget class="QLabel" name="iconBusqueda">
@@ -310,25 +278,6 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
     </property>
     <property name="placeholderText">
      <string> Buscar por apellido</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="buscarId">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>150</y>
-      <width>201</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border-radius:10px;</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="placeholderText">
-     <string> Buscar por ID</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="buscarCargo">

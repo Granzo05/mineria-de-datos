@@ -96,48 +96,49 @@ class EmpleadosDatabase:
         except Exception as e:
             print("Error al obtener los empleados:", str(e))
 
-    def buscar_rendimiento_empleado(self, nombre=None, apellido=None, cargo=None, turno=None, idRendimiento=None,
-                                    fecha_input=None, idEmpleado=None):
-        query = "SELECT * FROM empleados WHERE id = ?"
-        params = [id]
-
-        if nombre is not None:
-            query += " AND nombre = ?"
-            params.append(nombre)
-
-        if apellido is not None:
-            query += " AND apellido = ?"
-            params.append(apellido)
-
-        if cargo is not None:
-            query += " AND cargo = ?"
-            params.append(cargo)
-
-        if turno is not None:
-            query += " AND turno = ?"
-            params.append(turno)
-
-        if idRendimiento is not None:
-            query += " AND idRendimiento = ?"
-            params.append(idRendimiento)
+    def buscar_rendimiento_empleado(self, idEmpleado, fecha_input, tablaDatos):
+        query = "SELECT * FROM empleados_parametros WHERE empleado_id = ?"
+        params = []
 
         if fecha_input is not None:
             fecha_qdate = QtCore.QDate.fromString(fecha_input, "dd/MM/yyyy")
             if fecha_qdate.isValid() and fecha_qdate.dayOfWeek() < 6:
-                fecha_formateada = fecha_qdate.toString("yyyy-MM-dd")
-                fecha_final = fecha_formateada.replace("/", "-")
+                fecha_final = fecha_qdate.toString(QtCore.Qt.DateFormat.ISODate)
                 query += " AND fecha = ?"
-                params.append(fecha_final)
             else:
                 return []
 
-        if idEmpleado is not None:
-            query += " AND empleado_id = ?"
-            params.append(idEmpleado)
+        params.append(idEmpleado)
+        params.append(fecha_final)
 
         try:
             self.cursor.execute(query, params)
             resultados = self.cursor.fetchall()
+
+            print(resultados)
+
+            # Limpiar la tabla antes de agregar nuevos datos
+            tablaDatos.clearContents()
+            tablaDatos.setRowCount(0)
+
+            # Establecer las columnas a mostrar en la tabla
+            columnas = ["ID", "FECHA", "PASOS", "HORAS TRABAJADAS", "ASISTENCIA", "NIVEL DE ESTRES", "ID EMPLEADO"]
+            tablaDatos.setColumnCount(len(columnas))
+            tablaDatos.setHorizontalHeaderLabels(columnas)
+
+            # Calcular la cantidad de filas necesarias para mostrar los resultados
+            num_rows = len(resultados)
+
+            # Establecer la cantidad de filas en la tabla
+            tablaDatos.setRowCount(num_rows)
+
+            for row, resultado in enumerate(resultados):
+                for col, valor in enumerate(resultado):
+                    item = QTableWidgetItem(str(valor))
+                    tablaDatos.setItem(row, col, item)
+
+            # Ajustar el tamaño de las columnas para que se ajusten al contenido
+            tablaDatos.resizeColumnsToContents()
         except Exception as e:
             print("Error al buscar los datos del empleado en la base de datos:", str(e))
             return []
