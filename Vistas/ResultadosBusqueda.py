@@ -7,9 +7,8 @@ class ResultadosBusqueda(QDialog):
         super(ResultadosBusqueda, self).__init__()
         uic.loadUi("Interfaz/tabla.ui", self)
 
-        print(resultados)
         # Establecer las columnas a mostrar en la tabla
-        columnas = ["ID", "FECHA", "PASOS", "HORAS DE TRABAJO", "ASISTENCIA", "NIVEL DE ESTRÉS", "ID EMPLEADO"]
+        columnas = ["ID", "NOMBRE", "APELLIDO", "CARGO", "TURNO"]
 
         self.tableWidget.setColumnCount(len(columnas))
         self.tableWidget.setHorizontalHeaderLabels(columnas)

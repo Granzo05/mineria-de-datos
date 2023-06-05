@@ -2,6 +2,7 @@ from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import QDate
 
 from Database.EmpleadosDatabase import EmpleadosDatabase
+from Vistas.ResultadosBusqueda import ResultadosBusqueda
 
 
 class EmpleadosScreen(QtWidgets.QMainWindow):
@@ -32,18 +33,19 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
 
         self.buscarRendimiento.clicked.connect(self.buscar_rendimiento_empleado)
 
+        self.buscarNombre.textChanged.connect(self.actualizarFiltroNombre)
+        self.buscarApellido.textChanged.connect(self.actualizarFiltroApellido)
+        self.buscarCargo.textChanged.connect(self.actualizarFiltroCargo)
+        self.buscarTurno.textChanged.connect(self.actualizarFiltroTurno)
+
         fecha_inicio = QDate(2023, 4, 27)
 
         self.fechaRendimiento.setDate(fecha_inicio)
 
         with EmpleadosDatabase() as empleados_data:
-            empleados_data.obtener_empleados(self.tablaDatos)
+            empleados_data.obtener_parametros_empleados(self.tablaDatos)
 
-    def cerrar_sesion(self):
-        try:
-            self.close()
-        except Exception as e:
-            print("Error al cerrar la sesión:", str(e))
+            empleados_data.traer_empleados(self.tablaEmpleados)
 
     def salir_screen(self):
         self.close()
@@ -96,5 +98,42 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
         fechaInput = self.fechaRendimiento.text()
         id = self.idRendimiento.text()
 
-        with EmpleadosDatabase() as empleados_data:
-            empleados_data.buscar_rendimiento_empleado(id, fechaInput, self.tablaDatos)
+        if fechaInput and id:
+            with EmpleadosDatabase() as empleados_data:
+                empleados_data.buscar_rendimiento_empleado(id, fechaInput, self.tablaDatos)
+
+            self.errorIdFecha.setVisible(False)
+        else:
+            self.errorIdFecha.setVisible(True)
+
+    def actualizarFiltroNombre(self, texto):
+        if texto:
+            with EmpleadosDatabase() as empleados_data:
+                query = "SELECT * FROM empleados_parametros WHERE nombre LIKE ?"
+                params = [f"%{texto}%"]
+                empleados_data.filtrar_por_campos(
+                    query, params, self.tablaDatos)
+
+    def actualizarFiltroApellido(self, texto):
+        if texto:
+            with EmpleadosDatabase() as empleados_data:
+                query = "SELECT * FROM empleados_parametros WHERE apellido LIKE ?"
+                params = [f"%{texto}%"]
+                empleados_data.filtrar_por_campos(
+                    query, params, self.tablaDatos)
+
+    def actualizarFiltroCargo(self, texto):
+        if texto:
+            with EmpleadosDatabase() as empleados_data:
+                query = "SELECT * FROM empleados_parametros WHERE cargo LIKE ?"
+                params = [f"%{texto}%"]
+                empleados_data.filtrar_por_campos(
+                    query, params, self.tablaDatos)
+
+    def actualizarFiltroTurno(self, texto):
+        if texto:
+            with EmpleadosDatabase() as empleados_data:
+                query = "SELECT * FROM empleados_parametros WHERE turno LIKE ?"
+                params = [f"%{texto}%"]
+                empleados_data.filtrar_por_campos(
+                    query, params, self.tablaDatos)
