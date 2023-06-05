@@ -1,9 +1,6 @@
-<<<<<<< HEAD
-from PyQt5 import uic
-from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QTableWidgetItem
 
-from Database.EmpleadosDatabase import EmpleadosDatabase
+from PyQt5 import QtWidgets
+
 
 
 class EmpleadosScreen(QtWidgets.QMainWindow):
@@ -59,7 +56,7 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
         with EmpleadosDatabase() as empleados_data:
             empleados_data.buscar_rendimiento_empleado(nombre, apellido, cargo, turno, idRendimiento, fecha_input,
                                                        idEmpleado)
-=======
+
 from PyQt5 import QtWidgets, uic
 
 from Database.EmpleadosDatabase import EmpleadosDatabase
@@ -98,4 +95,4 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
             self.close()
         except Exception as e:
             print("Error al cerrar la sesión:", str(e))
->>>>>>> 678ac8ad9da9210174037461053acf57dc6588f3
+
