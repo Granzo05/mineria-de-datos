@@ -123,7 +123,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
      <string>BUSCAR RENDIMIENTO</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="anadir">
+   <widget class="QPushButton" name="agregar">
     <property name="geometry">
      <rect>
       <x>460</x>
