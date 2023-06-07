@@ -5,11 +5,17 @@ from Vistas.EmpleadosScreen import EmpleadosScreen
 
 
 class Menu(QtWidgets.QMainWindow):
+    _instance = None
+
+    def __new__(cls, *args, **kwargs):
+        if not cls._instance:
+            cls._instance = super(Menu, cls).__new__(cls, *args, **kwargs)
+        return cls._instance
+
     def __init__(self):
         super(Menu, self).__init__()
         uic.loadUi("Interfaz/menu.ui", self)
 
-        # Acceso a los botones
         self.agregar.clicked.connect(self.agregar_screen)
         self.salir.clicked.connect(self.salir_screen)
         self.cerrarSesion.clicked.connect(self.cerrar_sesion)

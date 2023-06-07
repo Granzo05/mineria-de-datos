@@ -1,7 +1,5 @@
-from PyQt5 import QtWidgets, uic
-
 from Database.EmpleadosDatabase import EmpleadosDatabase
-
+from PyQt5 import QtWidgets, uic
 
 class AgregarEmpleado(QtWidgets.QMainWindow):
     def __init__(self):
@@ -35,7 +33,7 @@ class AgregarEmpleado(QtWidgets.QMainWindow):
             from Vistas.Menu import Menu
             menu_screen = Menu()
             menu_screen.show()
-            self.close()
+            self.hide()
         except Exception as e:
             print("Error al volver:", str(e))
 
