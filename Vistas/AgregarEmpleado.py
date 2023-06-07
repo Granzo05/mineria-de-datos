@@ -1,6 +1,7 @@
 from Database.EmpleadosDatabase import EmpleadosDatabase
 from PyQt5 import QtWidgets, uic
 
+
 class AgregarEmpleado(QtWidgets.QMainWindow):
     def __init__(self):
         super(AgregarEmpleado, self).__init__()
@@ -38,14 +39,16 @@ class AgregarEmpleado(QtWidgets.QMainWindow):
             print("Error al volver:", str(e))
 
     def agregar_empleado(self):
-
         nombre = self.nombreEmpleado.text()
         apellido = self.apellidoEmpleado.text()
         cargo = self.cargoEmpleado.text()
         turno = self.turnoEmpleado.text()
 
-        try:
-            with EmpleadosDatabase() as empleados_data:
-                empleados_data.agregar_empleado(nombre, apellido, cargo, turno)
-        except Exception as e:
-            print("Error al agregar empleado:", str(e))
+        if nombre and apellido and cargo and turno:
+            try:
+                with EmpleadosDatabase() as empleados_data:
+                    empleados_data.agregar_empleado(nombre, apellido, cargo, turno)
+            except Exception as e:
+                print("Error al agregar empleado:", str(e))
+        else:
+            print("Todos los campos deben estar completos.")

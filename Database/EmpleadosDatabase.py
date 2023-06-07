@@ -154,20 +154,87 @@ class EmpleadosDatabase:
         except Exception as e:
             print("Error al agregar empleado:", str(e))
 
-    def filtrar_por_campos(self, query, params, tablaDatos):
+    def filtrar_por_campos(self, query, params, tablaEmpleados):
         try:
             self.cursor.execute(query, params)
             resultados = self.cursor.fetchall()
 
-            tablaDatos.clearContents()
-            tablaDatos.setRowCount(0)
+            tablaEmpleados.clearContents()
+            tablaEmpleados.setRowCount(0)
 
+            columnas = ["ID", "NOMBRE", "APELLIDO", "CARGO", "TURNO"]
+            tablaEmpleados.setColumnCount(len(columnas))
+            tablaEmpleados.setHorizontalHeaderLabels(columnas)
+
+            num_rows = len(resultados)
+            tablaEmpleados.setRowCount(num_rows)
+
+            ids_empleados = []
             for row, resultado in enumerate(resultados):
-                # Agregar cada valor del resultado a la tabla
+                id_empleado = resultado[0]
+                ids_empleados.append(id_empleado)
+
                 for col, valor in enumerate(resultado):
                     item = QTableWidgetItem(str(valor))
-                    tablaDatos.setItem(row, col, item)
+                    tablaEmpleados.setItem(row, col, item)
 
-            tablaDatos.resizeColumnsToContents()
+            tablaEmpleados.resizeColumnsToContents()
+
+            return ids_empleados
+
         except Exception as e:
             print("Error al filtrar por nombre en la base de datos:", str(e))
+
+    def obtener_parametros_empleados_filtrados(self, ids, tablaDatos):
+        try:
+            with EmpleadosDatabase() as empleados_data:
+                # Establecer las columnas a mostrar en la tabla
+                columnas = ["ID", "FECHA", "PASOS", "HORAS TRABAJADAS", "ASISTENCIA", "NIVEL DE ESTRES"]
+                tablaDatos.setColumnCount(len(columnas))
+                tablaDatos.setHorizontalHeaderLabels(columnas)
+
+                # Limpiar la tabla antes de agregar nuevos datos
+                tablaDatos.clearContents()
+                tablaDatos.setRowCount(0)
+
+                ids = ids[0].strip('%[]')
+                # Dividir la cadena en una lista de cadenas separadas por comas
+                ids_list = ids.split(',')
+                # Convertir cada cadena a un número entero
+                ids = [int(id_str.strip()) for id_str in ids_list]
+
+                # Construir la parte de la consulta con los marcadores de posición
+                placeholders = ",".join(["?"] * len(ids))
+
+                # Construir la consulta SQL con los marcadores de posición
+                query = f"""
+                    SELECT empleado_id, fecha, pasos_realizados, horas_de_trabajo, asistencia, nivel_estres
+                    FROM empleados_parametros
+                    WHERE empleado_id IN ({placeholders})
+                """
+                params = ids
+
+                try:
+                    self.cursor.execute(query, params)
+                    resultados = self.cursor.fetchall()
+
+                    # Calcular la cantidad de filas necesarias para mostrar los resultados
+                    num_rows = len(resultados)
+
+                    # Establecer la cantidad de filas en la tabla
+                    tablaDatos.setRowCount(num_rows)
+
+                    for row, resultado in enumerate(resultados):
+                        for col, valor in enumerate(resultado):
+                            item = QTableWidgetItem(str(valor))
+                            tablaDatos.setItem(row, col, item)
+
+                    # Ajustar el tamaño de las columnas para que se ajusten al contenido
+                    tablaDatos.resizeColumnsToContents()
+
+                except Exception as e:
+                    print("Error al buscar los datos del empleado en la base de datos:", str(e))
+                    return []
+
+        except Exception as e:
+            print("Error al obtener los empleados:", str(e))

@@ -32,10 +32,10 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
 
         self.buscarRendimiento.clicked.connect(self.buscar_rendimiento_empleado)
 
-        self.buscarNombre.textChanged.connect(self.actualizarFiltroNombre)
-        self.buscarApellido.textChanged.connect(self.actualizarFiltroApellido)
-        self.buscarCargo.textChanged.connect(self.actualizarFiltroCargo)
-        self.buscarTurno.textChanged.connect(self.actualizarFiltroTurno)
+        self.buscarNombre.textChanged.connect(self.mostrar_empleados_por_nombre)
+        self.buscarApellido.textChanged.connect(self.mostrar_empleados_por_apellido)
+        self.buscarCargo.textChanged.connect(self.mostrar_empleados_por_cargo)
+        self.buscarTurno.textChanged.connect(self.mostrar_empleados_por_turno)
 
         fecha_inicio = QDate(2023, 4, 27)
 
@@ -104,34 +104,56 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
         else:
             self.errorIdFecha.setVisible(True)
 
-    def actualizarFiltroNombre(self, texto):
+    def mostrar_empleados_por_nombre(self, texto):
         if texto:
-            with EmpleadosDatabase() as empleados_data:
-                query = "SELECT * FROM empleados_parametros WHERE nombre LIKE ?"
-                params = [f"%{texto}%"]
-                empleados_data.filtrar_por_campos(
-                    query, params, self.tablaDatos)
+            try:
+                with EmpleadosDatabase() as empleados_data:
+                    # Obtener los IDs de los empleados que coinciden con el nombre
+                    query = "SELECT * FROM empleados WHERE nombre LIKE ?"
+                    params = [f"%{texto}%"]
+                    ids_empleados = empleados_data.filtrar_por_campos(query, params, self.tablaEmpleados)
 
-    def actualizarFiltroApellido(self, texto):
-        if texto:
-            with EmpleadosDatabase() as empleados_data:
-                query = "SELECT * FROM empleados_parametros WHERE apellido LIKE ?"
-                params = [f"%{texto}%"]
-                empleados_data.filtrar_por_campos(
-                    query, params, self.tablaDatos)
+                    params = [f"%{ids_empleados}%"]
+                    empleados_data.obtener_parametros_empleados_filtrados(params, self.tablaDatos)
+            except Exception as e:
+                print("Error al obtener los empleados:", str(e))
 
-    def actualizarFiltroCargo(self, texto):
+    def mostrar_empleados_por_apellido(self, texto):
         if texto:
-            with EmpleadosDatabase() as empleados_data:
-                query = "SELECT * FROM empleados_parametros WHERE cargo LIKE ?"
-                params = [f"%{texto}%"]
-                empleados_data.filtrar_por_campos(
-                    query, params, self.tablaDatos)
+            try:
+                with EmpleadosDatabase() as empleados_data:
+                    query = "SELECT * FROM empleados WHERE apellido LIKE ?"
+                    params = [f"%{texto}%"]
+                    ids_empleados = empleados_data.filtrar_por_campos(query, params, self.tablaEmpleados)
 
-    def actualizarFiltroTurno(self, texto):
+                    params = [f"%{ids_empleados}%"]
+                    empleados_data.obtener_parametros_empleados_filtrados(params, self.tablaDatos)
+            except Exception as e:
+                print("Error al obtener los empleados:", str(e))
+
+    def mostrar_empleados_por_cargo(self, texto):
         if texto:
-            with EmpleadosDatabase() as empleados_data:
-                query = "SELECT * FROM empleados_parametros WHERE turno LIKE ?"
-                params = [f"%{texto}%"]
-                empleados_data.filtrar_por_campos(
-                    query, params, self.tablaDatos)
+            try:
+                with EmpleadosDatabase() as empleados_data:
+                    query = "SELECT * FROM empleados WHERE cargo LIKE ?"
+                    params = [f"%{texto}%"]
+                    ids_empleados = empleados_data.filtrar_por_campos(query, params, self.tablaEmpleados)
+
+                    params = [f"%{ids_empleados}%"]
+                    empleados_data.obtener_parametros_empleados_filtrados(params, self.tablaDatos)
+            except Exception as e:
+                print("Error al obtener los empleados:", str(e))
+
+    def mostrar_empleados_por_turno(self, texto):
+        if texto:
+            try:
+                with EmpleadosDatabase() as empleados_data:
+                    # Obtener los IDs de los empleados que coinciden con el nombre
+                    query = "SELECT * FROM empleados WHERE turno LIKE ?"
+                    params = [f"%{texto}%"]
+                    ids_empleados = empleados_data.filtrar_por_campos(query, params, self.tablaEmpleados)
+
+                    params = [f"%{ids_empleados}%"]
+                    empleados_data.obtener_parametros_empleados_filtrados(params, self.tablaDatos)
+            except Exception as e:
+                print("Error al obtener los empleados:", str(e))
