@@ -2,7 +2,6 @@ from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import QDate
 
 from Database.EmpleadosDatabase import EmpleadosDatabase
-from Vistas.ResultadosBusqueda import ResultadosBusqueda
 
 
 class EmpleadosScreen(QtWidgets.QMainWindow):
@@ -44,7 +43,6 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
 
         with EmpleadosDatabase() as empleados_data:
             empleados_data.obtener_parametros_empleados(self.tablaDatos)
-
             empleados_data.traer_empleados(self.tablaEmpleados)
 
     def salir_screen(self):

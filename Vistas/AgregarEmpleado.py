@@ -1,4 +1,3 @@
-
 from PyQt5 import QtWidgets, uic
 
 from Database.EmpleadosDatabase import EmpleadosDatabase
@@ -9,30 +8,46 @@ class AgregarEmpleado(QtWidgets.QMainWindow):
         super(AgregarEmpleado, self).__init__()
         uic.loadUi("Interfaz/add.ui", self)
 
+        self.agregarEmpleado.clicked.connect(
+            lambda: self.agregar_empleado()
+        )
+        self.salir.clicked.connect(self.salir_click)
+        self.cerrarSesion.clicked.connect(self.cerrar_sesion)
+        self.volver.clicked.connect(self.volver_click)
+
+    def cerrar_sesion(self):
+        try:
+            from Vistas.LoginScreen import LoginScreen
+            login_screen = LoginScreen()
+            login_screen.show()
+            self.close()
+        except Exception as e:
+            print("Error al cerrar sesión:", str(e))
+
+    def salir_click(self):
+        try:
+            self.close()
+        except Exception as e:
+            print("Error al salir:", str(e))
+
+    def volver_click(self):
+        try:
+            from Vistas.Menu import Menu
+            menu_screen = Menu()
+            menu_screen.show()
+            self.close()
+        except Exception as e:
+            print("Error al volver:", str(e))
+
+    def agregar_empleado(self):
+
         nombre = self.nombreEmpleado.text()
         apellido = self.apellidoEmpleado.text()
         cargo = self.cargoEmpleado.text()
         turno = self.turnoEmpleado.text()
 
-        with EmpleadosDatabase() as empleados_data:
-            self.anadirEmpleado.clicked.connect(
-                lambda: empleados_data.agregar_empleado(nombre, apellido, cargo, turno, self.errorEmpleado)
-            )
-            self.salir.clicked.connect(self.salir_click)
-            self.cerrarSesion.clicked.connect(self.cerrar_sesion)
-            self.volver.clicked.connect(self.volver_click)
-
-    def cerrar_sesion(self):
-        from Vistas.LoginScreen import LoginScreen
-        login_screen = LoginScreen()
-        login_screen.show()
-        self.close()
-
-    def salir_click(self):
-        self.close()
-
-    def volver_click(self):
-        from Vistas.Menu import Menu
-        menu_screen = Menu()
-        menu_screen.show()
-        self.close()
+        try:
+            with EmpleadosDatabase() as empleados_data:
+                empleados_data.agregar_empleado(nombre, apellido, cargo, turno)
+        except Exception as e:
+            print("Error al agregar empleado:", str(e))

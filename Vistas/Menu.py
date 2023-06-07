@@ -16,9 +16,12 @@ class Menu(QtWidgets.QMainWindow):
         self.buscar.clicked.connect(self.buscar_screen)
 
     def buscar_screen(self):
-        self.hide()
-        window = EmpleadosScreen()
-        window.show()
+        try:
+            self.hide()
+            window = EmpleadosScreen()
+            window.show()
+        except Exception as e:
+            print(f"Error al abrir la ventana: {str(e)}")
 
     def agregar_screen(self):
         try:

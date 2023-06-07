@@ -138,18 +138,21 @@ class EmpleadosDatabase:
             print("Error al buscar los datos del empleado en la base de datos:", str(e))
             return []
 
-    def agregar_empleado(self, nombre, apellido, cargo, turno, errorEmpleado):
-        query = "INSERT INTO empleados (nombre, apellido, cargo, turno) VALUES (?, ?, ?, ?)"
+    def agregar_empleado(self, nombre, apellido, cargo, turno):
         try:
-            self.cursor.execute(query, (nombre, apellido, cargo, turno))
+            sql = "INSERT INTO empleados (nombre, apellido, cargo, turno) VALUES (?, ?, ?, ?)"
+
+            # Valores a insertar
+            valores = (nombre, apellido, cargo, turno)
+
+            # Ejecutar la sentencia SQL
+            self.conn.execute(sql, valores)
+
+            # Guardar los cambios
             self.conn.commit()
+            print("Listo")
         except Exception as e:
-            errorEmpleado.setText("Error al agregar el empleado")
-            errorEmpleado.show()
-            # Configurar el temporizador para ocultar el label después de 2 segundos
-            timer = QtCore.QTimer()
-            timer.singleShot(2000, errorEmpleado.hide)
-            print("Error al agregar el empleado:", str(e))
+            print("Error al agregar empleado:", str(e))
 
     def filtrar_por_campos(self, query, params, tablaDatos):
         try:
@@ -168,7 +171,3 @@ class EmpleadosDatabase:
             tablaDatos.resizeColumnsToContents()
         except Exception as e:
             print("Error al filtrar por nombre en la base de datos:", str(e))
-
-    def close_connection(self):
-        self.cursor.close()
-        self.conn.close()
