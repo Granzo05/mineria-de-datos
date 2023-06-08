@@ -150,8 +150,6 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
                     query += " AND (nombre LIKE ? AND turno LIKE ?)"
                     params.extend([f"%{nombre}%", f"%{turno}%"])
 
-                print(params)
-
                 # Obtener los IDs de los empleados que coinciden con los filtros
                 ids_empleados = empleados_data.filtrar_por_campos(query, params, self.tablaEmpleados)
 
