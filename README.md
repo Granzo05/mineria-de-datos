@@ -4,7 +4,7 @@ Metodología de investigación 2023 - Universidad Tecnológica Nacional Mendoza
 Integrantes:
 - Del Monte, Agustín.
 - Ficara, Augusto.
-- Giorlando,Pedro.
+- Giorlando, Pedro.
 - Granzotto, Facundo.
 - Santucci, Renzo.
 
