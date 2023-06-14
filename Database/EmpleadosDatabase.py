@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QTableWidgetItem
 
 class EmpleadosDatabase:
     def __init__(self):
-        self.db_path = 'Database/mineria_de_datos.db'
+        self.db_path = 'mineria_de_datos.db'
 
     def __enter__(self):
         self.conn = sqlite3.connect(self.db_path)
