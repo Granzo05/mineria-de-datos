@@ -1,7 +1,45 @@
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import QDate
+import pandas as pd
+import matplotlib.pyplot as plt
 
 from Database.EmpleadosDatabase import EmpleadosDatabase
+
+
+def crear_graficos(self):
+    with EmpleadosDatabase() as empleados_data:
+        empleados = empleados_data.obtener_parametros_empleados_graficos(30)
+
+    # Convertir la lista de empleados en un DataFrame de pandas
+    df = pd.DataFrame(empleados,
+                      columns=['fecha', 'pasos_realizados', 'horas_de_trabajo', 'asistencia', 'nivel_estres',
+                               'empleado_id'])
+
+    # Eliminar las filas duplicadas basadas en la columna 'fecha'
+    df = df.drop_duplicates(subset='fecha')
+
+    df['fecha'] = pd.to_datetime(df['fecha'])
+
+    # Crear gráficos individuales para cada parámetro
+    # Crear gráficos individuales para cada parámetro
+    parametros = ['pasos_realizados', 'horas_de_trabajo', 'asistencia_numerica', 'nivel_estres']
+
+    for parametro in parametros:
+        plt.figure()
+        for empleado_id, empleado_data in df.groupby('empleado_id'):
+            ultimos_30_dias = empleado_data[empleado_data['fecha'] >= pd.Timestamp.now() - pd.DateOffset(days=30)]
+            ultimos_30_dias.loc[:, 'asistencia_numerica'] = ultimos_30_dias['asistencia'].apply(
+                lambda x: 1 if x == 'Presente' else 0)
+            plt.plot(ultimos_30_dias['fecha'], ultimos_30_dias[parametro], label=f'Empleado {empleado_id}')
+
+        # Establecer etiquetas en el eje X
+        plt.xticks(rotation=45)
+
+        # Mostrar leyenda
+        plt.legend()
+
+    # Mostrar todos los gráficos juntos
+    plt.show()
 
 
 class EmpleadosScreen(QtWidgets.QMainWindow):
@@ -12,6 +50,7 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
         self.volver.clicked.connect(lambda: self.volver_screen())
         self.salir.clicked.connect(self.salir_screen)
         self.cerrarSesion.clicked.connect(self.cerrar_sesion)
+        # self.crarGraficos.clicked.connect(self.crear_graficos)
 
         self.errorIdFecha.setVisible(False)
         self.buscarNombre.setVisible(False)
@@ -40,6 +79,8 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
         fecha_inicio = QDate(2023, 4, 27)
 
         self.fechaRendimiento.setDate(fecha_inicio)
+
+        crear_graficos(self)
 
         with EmpleadosDatabase() as empleados_data:
             empleados_data.obtener_parametros_empleados(self.tablaDatos)

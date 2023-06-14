@@ -238,3 +238,15 @@ class EmpleadosDatabase:
 
         except Exception as e:
             print("Error al obtener los empleados:", str(e))
+
+    def obtener_parametros_empleados_graficos(self, dias):
+        try:
+            query = f"SELECT DISTINCT fecha, pasos_realizados, horas_de_trabajo, asistencia, nivel_estres, empleado_id FROM empleados_parametros WHERE fecha >= DATE('now', '-{dias} day')"
+            self.cursor.execute(query)
+            resultados = self.cursor.fetchall()
+
+            return resultados
+        except Exception as e:
+            print("Error al obtener los empleados:", str(e))
+
+
