@@ -230,10 +230,6 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
         self.errorIdFecha.setVisible(False)
 
     def mostrar_empleados_por_parametros_graficos(self, dias=None, id=None, cargo=None, turno=None):
-        print(dias)
-        print(turno)
-        print(cargo)
-        print(id)
         try:
             with EmpleadosDatabase() as empleados_data:
                 query = "SELECT * FROM empleados WHERE 1=1"
