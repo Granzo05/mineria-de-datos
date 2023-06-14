@@ -207,7 +207,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">image: url(:/iconos/9330926.png);</string>
+     <string notr="true">image: url(:/iconos/carnet.png);</string>
     </property>
     <property name="text">
      <string/>
@@ -299,7 +299,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">image: url(:/iconos/apellido.png);</string>
+     <string notr="true">image: url(:Imagenes/apellido.png);</string>
     </property>
     <property name="text">
      <string/>
@@ -659,7 +659,7 @@ color: rgb(255, 255, 255);</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">image: url(:/iconos/8664796_calendar_days_icon.png);</string>
+     <string notr="true">image: url(:/iconos/icono_calendario.png);</string>
     </property>
     <property name="text">
      <string/>

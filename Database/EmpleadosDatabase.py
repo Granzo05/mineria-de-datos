@@ -1,6 +1,4 @@
 import sqlite3
-import sys
-import os
 
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QTableWidgetItem
@@ -9,11 +7,7 @@ from PyQt5.QtWidgets import QTableWidgetItem
 class EmpleadosDatabase:
 
     def __init__(self):
-        # Obtener la ruta base del ejecutable
-        base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
-
-        # Construir la ruta completa a la base de datos
-        self.db_path = os.path.join(base_path, 'mineria_de_datos.db')
+        self.db_path = 'Database/mineria_de_datos.db'
 
     def __enter__(self):
         self.conn = sqlite3.connect(self.db_path)
