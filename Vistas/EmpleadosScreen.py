@@ -16,29 +16,42 @@ def crear_graficos(self):
                                'empleado_id'])
 
     # Eliminar las filas duplicadas basadas en la columna 'fecha'
-    df = df.drop_duplicates(subset='fecha')
+    #df = df.drop_duplicates(subset='fecha')
 
     df['fecha'] = pd.to_datetime(df['fecha'])
 
-    # Crear gráficos individuales para cada parámetro
-    # Crear gráficos individuales para cada parámetro
-    parametros = ['pasos_realizados', 'horas_de_trabajo', 'asistencia_numerica', 'nivel_estres']
+    # Filtrar los últimos 30 días
+    ultimos_30_dias = df[df['fecha'] >= pd.Timestamp.now() - pd.DateOffset(days=30)]
 
-    for parametro in parametros:
-        plt.figure()
-        for empleado_id, empleado_data in df.groupby('empleado_id'):
-            ultimos_30_dias = empleado_data[empleado_data['fecha'] >= pd.Timestamp.now() - pd.DateOffset(days=30)]
-            ultimos_30_dias.loc[:, 'asistencia_numerica'] = ultimos_30_dias['asistencia'].apply(
-                lambda x: 1 if x == 'Presente' else 0)
-            plt.plot(ultimos_30_dias['fecha'], ultimos_30_dias[parametro], label=f'Empleado {empleado_id}')
+    # Calcular las sumas de los parámetros para todos los empleados en un día
+    suma_pasos = ultimos_30_dias.groupby('fecha')['pasos_realizados'].sum()
+    suma_horas_trabajo = ultimos_30_dias.groupby('fecha')['horas_de_trabajo'].sum()
+    suma_asistencia = ultimos_30_dias.groupby('fecha')['asistencia'].apply(
+        lambda x: (x == 'Presente').sum())
+    suma_estres = ultimos_30_dias.groupby('fecha')['nivel_estres'].mean()
 
-        # Establecer etiquetas en el eje X
-        plt.xticks(rotation=45)
+    # Crear gráfico para los pasos
+    plt.subplot(2, 1, 1)
+    plt.plot(suma_pasos.index, suma_pasos, label='Pasos Realizados')
+    plt.xlabel('Fecha')
+    plt.ylabel('Pasos')
+    plt.title('Pasos Realizados en los últimos 30 días')
+    plt.xticks(rotation=45)
+    plt.legend()
 
-        # Mostrar leyenda
-        plt.legend()
+    # Crear gráfico combinado para el estrés, asistencia y horas
+    plt.subplot(2, 1, 2)
+    plt.plot(suma_horas_trabajo.index, suma_horas_trabajo, label='Horas de Trabajo')
+    plt.plot(suma_asistencia.index, suma_asistencia, label='Asistencia')
+    plt.plot(suma_estres.index, suma_estres, label='Nivel de Estrés')
+    plt.xlabel('Fecha')
+    plt.ylabel('Valor')
+    plt.title('Horas de Trabajo, Asistencia y Nivel de Estrés en los últimos 30 días')
+    plt.xticks(rotation=45)
+    plt.legend()
 
-    # Mostrar todos los gráficos juntos
+    # Mostrar ambos gráficos
+    plt.tight_layout()
     plt.show()
 
 
