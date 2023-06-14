@@ -33,9 +33,9 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>250</x>
+      <x>210</x>
       <y>40</y>
-      <width>571</width>
+      <width>661</width>
       <height>101</height>
      </rect>
     </property>
@@ -49,9 +49,9 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>720</x>
+      <x>740</x>
       <y>100</y>
-      <width>121</width>
+      <width>141</width>
       <height>51</height>
      </rect>
     </property>
@@ -131,7 +131,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
      <rect>
       <x>490</x>
       <y>320</y>
-      <width>201</width>
+      <width>281</width>
       <height>21</height>
      </rect>
     </property>
@@ -147,7 +147,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
      <rect>
       <x>490</x>
       <y>360</y>
-      <width>201</width>
+      <width>281</width>
       <height>21</height>
      </rect>
     </property>
@@ -164,9 +164,9 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
    <widget class="QPushButton" name="iniciaSesion">
     <property name="geometry">
      <rect>
-      <x>550</x>
+      <x>524</x>
       <y>400</y>
-      <width>75</width>
+      <width>101</width>
       <height>23</height>
      </rect>
     </property>
