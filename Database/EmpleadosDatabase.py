@@ -240,14 +240,78 @@ class EmpleadosDatabase:
         except Exception as e:
             print("Error al obtener los empleados:", str(e))
 
-    def obtener_parametros_empleados_graficos(self, dias):
+    def obtener_parametros_empleados_filtrados(self, ids):
         try:
-            query = f"SELECT DISTINCT fecha, pasos_realizados, horas_de_trabajo, asistencia, nivel_estres, empleado_id FROM empleados_parametros WHERE fecha >= DATE('now', '-{dias} day')"
-            self.cursor.execute(query)
-            resultados = self.cursor.fetchall()
+            ids = ids[0].strip('%[]')
+            # Dividir la cadena en una lista de cadenas separadas por comas
+            ids_list = ids.split(',')
+            # Convertir cada cadena a un número entero
+            ids = [int(id_str.strip()) for id_str in ids_list]
 
-            return resultados
+            # Construir la parte de la consulta con los marcadores de posición
+            placeholders = ",".join(["?"] * len(ids))
+
+            # Construir la consulta SQL con los marcadores de posición
+            query = f"""
+                    SELECT fecha, pasos_realizados, horas_de_trabajo, asistencia, nivel_estres, empleado_id
+                    FROM empleados_parametros
+                    WHERE empleado_id IN ({placeholders})
+                """
+            params = ids
+
+            try:
+                self.cursor.execute(query, params)
+                resultados = self.cursor.fetchall()
+
+                return resultados
+
+            except Exception as e:
+                print("Error al buscar los datos del empleado en la base de datos:", str(e))
+                return []
+
         except Exception as e:
             print("Error al obtener los empleados:", str(e))
 
+    def filtrar_por_campos_para_graficar(self, dias, ids):
+        try:
+            if ids:
+                ids = str(ids[0]).strip('%[]')
+                # Dividir la cadena en una lista de cadenas separadas por comas
+                ids_list = ids.split(',')
+                # Convertir cada cadena a un número entero
+                ids = [int(id_str.strip()) for id_str in ids_list]
+            else:
+                ids = []
+
+            # Construir la parte de la consulta con los marcadores de posición
+            placeholders = ",".join(["?"] * len(ids))
+
+            # Construir la consulta SQL con los marcadores de posición
+            query = f"SELECT DISTINCT fecha, pasos_realizados, horas_de_trabajo, asistencia, nivel_estres, empleado_id FROM empleados_parametros WHERE fecha >= DATE('now', '-{dias} day') AND empleado_id IN ({placeholders})"
+            params = ids
+
+            try:
+                self.cursor.execute(query, params)
+                resultados_db = self.cursor.fetchall()
+
+                return resultados_db
+
+            except Exception as e:
+                print("Error al buscar los datos del empleado en la base de datos:", str(e))
+                return []
+
+        except Exception as e:
+            print("Error al obtener los empleados:", str(e))
+
+    def filtrar_por_campos_grafico(self, query, params):
+        try:
+            self.cursor.execute(query, params)
+            resultados = self.cursor.fetchall()
+
+            ids_empleados = [resultado[0] for resultado in resultados]
+
+            return ids_empleados
+
+        except Exception as e:
+            print("Error al filtrar por campos en la base de datos:", str(e))
 

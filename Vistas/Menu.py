@@ -41,7 +41,10 @@ class Menu(QtWidgets.QMainWindow):
         self.close()
 
     def cerrar_sesion(self):
-        from Vistas.LoginScreen import LoginScreen
-        login_screen = LoginScreen()
-        login_screen.show()
-        self.close()
+        try:
+            from Vistas.LoginScreen import LoginScreen
+            login_screen = LoginScreen()
+            login_screen.show()
+            self.close()
+        except Exception as e:
+            print(f"Error al abrir la ventana: {str(e)}")

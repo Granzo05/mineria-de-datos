@@ -6,6 +6,12 @@ from Database.EmpleadosDatabase import EmpleadosDatabase
 
 
 class LoginScreen(QtWidgets.QMainWindow):
+    _instance = None
+    def __new__(cls, *args, **kwargs):
+        if not cls._instance:
+            cls._instance = super(LoginScreen, cls).__new__(cls, *args, **kwargs)
+        return cls._instance
+
     def __init__(self):
         super(LoginScreen, self).__init__()
         uic.loadUi("Interfaz/login.ui", self)
@@ -18,8 +24,8 @@ class LoginScreen(QtWidgets.QMainWindow):
 
         self.usuario_contra_inc.setVisible(False)
 
-        #Usuario: test
-        #Contraseña: test
+        # Usuario: test
+        # Contraseña: test
 
     def buscar_usuario_login(self):
         nombre = self.usuarioJefe.text()

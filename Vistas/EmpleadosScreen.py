@@ -14,8 +14,8 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
         self.volver.clicked.connect(lambda: self.volver_screen())
         self.salir.clicked.connect(self.salir_screen)
         self.cerrarSesion.clicked.connect(self.cerrar_sesion)
-        self.ultimos31.clicked.connect(lambda: self.crear_graficos(31))
-        self.ultimos14.clicked.connect(lambda: self.crear_graficos(14))
+        self.ultimos31.clicked.connect(lambda: self.mostrar_empleados_por_parametros_graficos(dias=31))
+        self.ultimos14.clicked.connect(lambda: self.mostrar_empleados_por_parametros_graficos(dias=14))
 
         self.errorIdFecha.setVisible(False)
         self.buscarNombre.setVisible(False)
@@ -36,6 +36,9 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
         self.filtroDiasGrafico.setVisible(False)
         self.filtros.stateChanged.connect(self.actualizarFiltros)
         self.filtroPerso.stateChanged.connect(self.actualizarFiltrosGrafico)
+        self.filtroPerso.setVisible(False)
+        self.busquedaPersonalizada.setVisible(False)
+
 
         # Filtros para buscar empleados
         self.filtroNombre.stateChanged.connect(self.actualizarFiltros)
@@ -58,13 +61,10 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
         self.buscarTurno.textChanged.connect(self.actualizar_empleados_por_parametros)
 
         # Campos para crear grafico
-        self.diasGrafico.textChanged.connect(self.actualizar_empleados_por_parametros)
-        self.turnoGrafico.textChanged.connect(self.actualizar_empleados_por_parametros)
-        self.cargoGrafico.textChanged.connect(self.actualizar_empleados_por_parametros)
-        self.idGrafico.textChanged.connect(self.actualizar_empleados_por_parametros)
-
-        self.busquedaPersonalizada.clicked.connect(
-            lambda: self.crear_graficos(self.diasGrafico.getText()) if self.diasGrafico.getText() != "" else None)
+        self.diasGrafico.textChanged.connect(self.actualizar_empleados_por_parametros_graficos)
+        self.turnoGrafico.textChanged.connect(self.actualizar_empleados_por_parametros_graficos)
+        self.cargoGrafico.textChanged.connect(self.actualizar_empleados_por_parametros_graficos)
+        self.idGrafico.textChanged.connect(self.actualizar_empleados_por_parametros_graficos)
 
         fecha_inicio = QDate(2023, 4, 27)
 
@@ -84,10 +84,13 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
         self.close()
 
     def cerrar_sesion(self):
-        from Vistas.LoginScreen import LoginScreen
-        login_screen = LoginScreen()
-        login_screen.show()
-        self.close()
+        try:
+            from Vistas.LoginScreen import LoginScreen
+            login_screen = LoginScreen()
+            login_screen.show()
+            self.close()
+        except Exception as e:
+            print(f"Error al abrir la ventana: {str(e)}")
 
     def actualizarFiltros(self):
         if self.filtroNombre.isChecked():
@@ -137,16 +140,11 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
         else:
             self.idGrafico.setVisible(False)
 
-        if self.filtroDiasGrafico.isChecked():
-            self.diasGrafico.setVisible(True)
-        else:
-            self.diasGrafico.setVisible(False)
-
         if self.filtroPerso.isChecked():
             self.filtroTurnoGrafico.setVisible(True)
             self.filtroCargoGrafico.setVisible(True)
             self.filtroIdGrafico.setVisible(True)
-            self.filtroDiasGrafico.setVisible(True)
+            self.diasGrafico.setVisible(True)
         else:
             self.filtroTurnoGrafico.setVisible(False)
             self.filtroCargoGrafico.setVisible(False)
@@ -221,33 +219,81 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
         except Exception as e:
             print("Error al obtener los empleados:", str(e))
 
-    def crear_graficos(self, dias):
+    def actualizar_empleados_por_parametros_graficos(self):
+        dias = self.diasGrafico.text()
+        turno = self.turnoGrafico.text()
+        cargo = self.cargoGrafico.text()
+        id = self.idGrafico.text()
+
+        self.busquedaPersonalizada.clicked.connect(
+            lambda: self.mostrar_empleados_por_parametros_graficos(dias, id, cargo, turno))
+        self.errorIdFecha.setVisible(False)
+
+    def mostrar_empleados_por_parametros_graficos(self, dias=None, id=None, cargo=None, turno=None):
+        print(dias)
+        print(turno)
+        print(cargo)
+        print(id)
+        try:
+            with EmpleadosDatabase() as empleados_data:
+                query = "SELECT * FROM empleados WHERE 1=1"
+                params = []
+
+                if turno:
+                    query += " AND turno LIKE ?"
+                    params.append(f"%{turno}%")
+
+                if cargo:
+                    query += " AND cargo LIKE ?"
+                    params.append(f"%{cargo}%")
+
+                if id:
+                    query += " AND id LIKE ?"
+                    params.append(f"%{id}%")
+
+                if id and cargo:
+                    query += " AND (id LIKE ? AND cargo LIKE ?)"
+                    params.extend([f"%{id}%", f"%{cargo}%"])
+
+                if id and turno:
+                    query += " AND (id LIKE ? AND turno LIKE ?)"
+                    params.extend([f"%{id}%", f"%{turno}%"])
+
+                if cargo and turno:
+                    query += " AND (cargo LIKE ? AND turno LIKE ?)"
+                    params.extend([f"%{cargo}%", f"%{turno}%"])
+
+                # Obtener los IDs de los empleados que coinciden con los filtros
+                ids_empleados = empleados_data.filtrar_por_campos_grafico(query, params)
+
+        except Exception as e:
+            print("Error al obtener los empleados:", str(e))
+
         with EmpleadosDatabase() as empleados_data:
-            empleados = empleados_data.obtener_parametros_empleados_graficos(dias)
+            resultados = empleados_data.filtrar_por_campos_para_graficar(dias, ids_empleados)
 
         # Convertir la lista de empleados en un DataFrame de pandas
-        df = pd.DataFrame(empleados,
+        df = pd.DataFrame(resultados,
                           columns=['fecha', 'pasos_realizados', 'horas_de_trabajo', 'asistencia', 'nivel_estres',
                                    'empleado_id'])
 
         df['fecha'] = pd.to_datetime(df['fecha'])
 
-        # Filtrar los últimos 30 días
-        ultimos_30_dias = df[df['fecha'] >= pd.Timestamp.now() - pd.DateOffset(days=30)]
+        filtro_dias = df[df['fecha'] >= pd.Timestamp.now() - pd.DateOffset(days=dias)]
 
         # Calcular las sumas de los parámetros para todos los empleados en un día
-        suma_pasos = ultimos_30_dias.groupby('fecha')['pasos_realizados'].sum()
-        suma_horas_trabajo = ultimos_30_dias.groupby('fecha')['horas_de_trabajo'].sum()
-        suma_asistencia = ultimos_30_dias.groupby('fecha')['asistencia'].apply(
+        suma_pasos = filtro_dias.groupby('fecha')['pasos_realizados'].sum()
+        suma_horas_trabajo = filtro_dias.groupby('fecha')['horas_de_trabajo'].sum()
+        suma_asistencia = filtro_dias.groupby('fecha')['asistencia'].apply(
             lambda x: (x == 'Presente').sum())
-        suma_estres = ultimos_30_dias.groupby('fecha')['nivel_estres'].mean()
+        suma_estres = filtro_dias.groupby('fecha')['nivel_estres'].mean()
 
         # Crear gráfico para los pasos
         plt.subplot(2, 1, 1)
         plt.plot(suma_pasos.index, suma_pasos, label='Pasos Realizados')
         plt.xlabel('Fecha')
         plt.ylabel('Pasos')
-        plt.title('Pasos Realizados en los últimos 30 días')
+        plt.title('Pasos Realizados en los últimos {} días'.format(dias))
         plt.xticks(rotation=45)
         plt.legend()
 
@@ -258,7 +304,7 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
         plt.plot(suma_estres.index, suma_estres, label='Nivel de Estrés')
         plt.xlabel('Fecha')
         plt.ylabel('Valor')
-        plt.title('Horas de Trabajo, Asistencia y Nivel de Estrés en los últimos 30 días')
+        plt.title('Horas de Trabajo, Asistencia y Nivel de Estrés en los últimos {} días'.format(dias))
         plt.xticks(rotation=45)
         plt.legend()
 

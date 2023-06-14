@@ -21,7 +21,7 @@ class AgregarEmpleado(QtWidgets.QMainWindow):
             login_screen.show()
             self.close()
         except Exception as e:
-            print("Error al cerrar sesión:", str(e))
+            print(f"Error al abrir la ventana: {str(e)}")
 
     def salir_click(self):
         try:
