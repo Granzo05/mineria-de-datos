@@ -6,55 +6,6 @@ import matplotlib.pyplot as plt
 from Database.EmpleadosDatabase import EmpleadosDatabase
 
 
-def crear_graficos(self):
-    with EmpleadosDatabase() as empleados_data:
-        empleados = empleados_data.obtener_parametros_empleados_graficos(30)
-
-    # Convertir la lista de empleados en un DataFrame de pandas
-    df = pd.DataFrame(empleados,
-                      columns=['fecha', 'pasos_realizados', 'horas_de_trabajo', 'asistencia', 'nivel_estres',
-                               'empleado_id'])
-
-    # Eliminar las filas duplicadas basadas en la columna 'fecha'
-    #df = df.drop_duplicates(subset='fecha')
-
-    df['fecha'] = pd.to_datetime(df['fecha'])
-
-    # Filtrar los últimos 30 días
-    ultimos_30_dias = df[df['fecha'] >= pd.Timestamp.now() - pd.DateOffset(days=30)]
-
-    # Calcular las sumas de los parámetros para todos los empleados en un día
-    suma_pasos = ultimos_30_dias.groupby('fecha')['pasos_realizados'].sum()
-    suma_horas_trabajo = ultimos_30_dias.groupby('fecha')['horas_de_trabajo'].sum()
-    suma_asistencia = ultimos_30_dias.groupby('fecha')['asistencia'].apply(
-        lambda x: (x == 'Presente').sum())
-    suma_estres = ultimos_30_dias.groupby('fecha')['nivel_estres'].mean()
-
-    # Crear gráfico para los pasos
-    plt.subplot(2, 1, 1)
-    plt.plot(suma_pasos.index, suma_pasos, label='Pasos Realizados')
-    plt.xlabel('Fecha')
-    plt.ylabel('Pasos')
-    plt.title('Pasos Realizados en los últimos 30 días')
-    plt.xticks(rotation=45)
-    plt.legend()
-
-    # Crear gráfico combinado para el estrés, asistencia y horas
-    plt.subplot(2, 1, 2)
-    plt.plot(suma_horas_trabajo.index, suma_horas_trabajo, label='Horas de Trabajo')
-    plt.plot(suma_asistencia.index, suma_asistencia, label='Asistencia')
-    plt.plot(suma_estres.index, suma_estres, label='Nivel de Estrés')
-    plt.xlabel('Fecha')
-    plt.ylabel('Valor')
-    plt.title('Horas de Trabajo, Asistencia y Nivel de Estrés en los últimos 30 días')
-    plt.xticks(rotation=45)
-    plt.legend()
-
-    # Mostrar ambos gráficos
-    plt.tight_layout()
-    plt.show()
-
-
 class EmpleadosScreen(QtWidgets.QMainWindow):
     def __init__(self):
         super(EmpleadosScreen, self).__init__()
@@ -63,37 +14,61 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
         self.volver.clicked.connect(lambda: self.volver_screen())
         self.salir.clicked.connect(self.salir_screen)
         self.cerrarSesion.clicked.connect(self.cerrar_sesion)
-        # self.crarGraficos.clicked.connect(self.crear_graficos)
+        self.ultimos31.clicked.connect(lambda: self.crear_graficos(31))
+        self.ultimos14.clicked.connect(lambda: self.crear_graficos(14))
 
         self.errorIdFecha.setVisible(False)
         self.buscarNombre.setVisible(False)
         self.buscarApellido.setVisible(False)
         self.buscarCargo.setVisible(False)
         self.buscarTurno.setVisible(False)
+        self.diasGrafico.setVisible(False)
+        self.turnoGrafico.setVisible(False)
+        self.cargoGrafico.setVisible(False)
+        self.idGrafico.setVisible(False)
         self.filtroNombre.setVisible(False)
         self.filtroApellido.setVisible(False)
         self.filtroCargo.setVisible(False)
         self.filtroTurno.setVisible(False)
+        self.filtroTurnoGrafico.setVisible(False)
+        self.filtroCargoGrafico.setVisible(False)
+        self.filtroIdGrafico.setVisible(False)
+        self.filtroDiasGrafico.setVisible(False)
         self.filtros.stateChanged.connect(self.actualizarFiltros)
+        self.filtroPerso.stateChanged.connect(self.actualizarFiltrosGrafico)
 
+        # Filtros para buscar empleados
         self.filtroNombre.stateChanged.connect(self.actualizarFiltros)
         self.filtroApellido.stateChanged.connect(self.actualizarFiltros)
         self.filtroCargo.stateChanged.connect(self.actualizarFiltros)
         self.filtroTurno.stateChanged.connect(self.actualizarFiltros)
-        self.filtros.stateChanged.connect(self.actualizarFiltros)
+
+        # Filtros para los graficos
+        self.filtroTurnoGrafico.stateChanged.connect(self.actualizarFiltrosGrafico)
+        self.filtroCargoGrafico.stateChanged.connect(self.actualizarFiltrosGrafico)
+        self.filtroIdGrafico.stateChanged.connect(self.actualizarFiltrosGrafico)
+        self.filtroDiasGrafico.stateChanged.connect(self.actualizarFiltrosGrafico)
 
         self.buscarRendimiento.clicked.connect(self.buscar_rendimiento_empleado)
 
+        # Campos para buscar Empleados
         self.buscarNombre.textChanged.connect(self.actualizar_empleados_por_parametros)
         self.buscarApellido.textChanged.connect(self.actualizar_empleados_por_parametros)
         self.buscarCargo.textChanged.connect(self.actualizar_empleados_por_parametros)
         self.buscarTurno.textChanged.connect(self.actualizar_empleados_por_parametros)
 
+        # Campos para crear grafico
+        self.diasGrafico.textChanged.connect(self.actualizar_empleados_por_parametros)
+        self.turnoGrafico.textChanged.connect(self.actualizar_empleados_por_parametros)
+        self.cargoGrafico.textChanged.connect(self.actualizar_empleados_por_parametros)
+        self.idGrafico.textChanged.connect(self.actualizar_empleados_por_parametros)
+
+        self.busquedaPersonalizada.clicked.connect(
+            lambda: self.crear_graficos(self.diasGrafico.getText()) if self.diasGrafico.getText() != "" else None)
+
         fecha_inicio = QDate(2023, 4, 27)
 
         self.fechaRendimiento.setDate(fecha_inicio)
-
-        crear_graficos(self)
 
         with EmpleadosDatabase() as empleados_data:
             empleados_data.obtener_parametros_empleados(self.tablaDatos)
@@ -145,6 +120,38 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
             self.filtroApellido.setVisible(False)
             self.filtroCargo.setVisible(False)
             self.filtroTurno.setVisible(False)
+
+    def actualizarFiltrosGrafico(self):
+        if self.filtroTurnoGrafico.isChecked():
+            self.turnoGrafico.setVisible(True)
+        else:
+            self.turnoGrafico.setVisible(False)
+
+        if self.filtroCargoGrafico.isChecked():
+            self.cargoGrafico.setVisible(True)
+        else:
+            self.cargoGrafico.setVisible(False)
+
+        if self.filtroIdGrafico.isChecked():
+            self.idGrafico.setVisible(True)
+        else:
+            self.idGrafico.setVisible(False)
+
+        if self.filtroDiasGrafico.isChecked():
+            self.diasGrafico.setVisible(True)
+        else:
+            self.diasGrafico.setVisible(False)
+
+        if self.filtroPerso.isChecked():
+            self.filtroTurnoGrafico.setVisible(True)
+            self.filtroCargoGrafico.setVisible(True)
+            self.filtroIdGrafico.setVisible(True)
+            self.filtroDiasGrafico.setVisible(True)
+        else:
+            self.filtroTurnoGrafico.setVisible(False)
+            self.filtroCargoGrafico.setVisible(False)
+            self.filtroIdGrafico.setVisible(False)
+            self.filtroDiasGrafico.setVisible(False)
 
     def buscar_rendimiento_empleado(self):
         fechaInput = self.fechaRendimiento.text()
@@ -213,3 +220,48 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
 
         except Exception as e:
             print("Error al obtener los empleados:", str(e))
+
+    def crear_graficos(self, dias):
+        with EmpleadosDatabase() as empleados_data:
+            empleados = empleados_data.obtener_parametros_empleados_graficos(dias)
+
+        # Convertir la lista de empleados en un DataFrame de pandas
+        df = pd.DataFrame(empleados,
+                          columns=['fecha', 'pasos_realizados', 'horas_de_trabajo', 'asistencia', 'nivel_estres',
+                                   'empleado_id'])
+
+        df['fecha'] = pd.to_datetime(df['fecha'])
+
+        # Filtrar los últimos 30 días
+        ultimos_30_dias = df[df['fecha'] >= pd.Timestamp.now() - pd.DateOffset(days=30)]
+
+        # Calcular las sumas de los parámetros para todos los empleados en un día
+        suma_pasos = ultimos_30_dias.groupby('fecha')['pasos_realizados'].sum()
+        suma_horas_trabajo = ultimos_30_dias.groupby('fecha')['horas_de_trabajo'].sum()
+        suma_asistencia = ultimos_30_dias.groupby('fecha')['asistencia'].apply(
+            lambda x: (x == 'Presente').sum())
+        suma_estres = ultimos_30_dias.groupby('fecha')['nivel_estres'].mean()
+
+        # Crear gráfico para los pasos
+        plt.subplot(2, 1, 1)
+        plt.plot(suma_pasos.index, suma_pasos, label='Pasos Realizados')
+        plt.xlabel('Fecha')
+        plt.ylabel('Pasos')
+        plt.title('Pasos Realizados en los últimos 30 días')
+        plt.xticks(rotation=45)
+        plt.legend()
+
+        # Crear gráfico combinado para el estrés, asistencia y horas
+        plt.subplot(2, 1, 2)
+        plt.plot(suma_horas_trabajo.index, suma_horas_trabajo, label='Horas de Trabajo')
+        plt.plot(suma_asistencia.index, suma_asistencia, label='Asistencia')
+        plt.plot(suma_estres.index, suma_estres, label='Nivel de Estrés')
+        plt.xlabel('Fecha')
+        plt.ylabel('Valor')
+        plt.title('Horas de Trabajo, Asistencia y Nivel de Estrés en los últimos 30 días')
+        plt.xticks(rotation=45)
+        plt.legend()
+
+        # Mostrar ambos gráficos
+        plt.tight_layout()
+        plt.show()

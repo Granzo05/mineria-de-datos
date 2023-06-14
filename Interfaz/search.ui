@@ -536,7 +536,7 @@
      <string> Cargo de empleados</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_id_5">
+   <widget class="QLabel" name="idGraficoLabel">
     <property name="geometry">
      <rect>
       <x>980</x>
@@ -571,7 +571,7 @@
      <string> ID del empleado</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_3">
+   <widget class="QPushButton" name="busquedaPersonalizada">
     <property name="geometry">
      <rect>
       <x>1000</x>
