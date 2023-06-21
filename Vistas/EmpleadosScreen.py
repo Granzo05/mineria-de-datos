@@ -18,7 +18,6 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
         self.ultimos14.clicked.connect(lambda: self.mostrar_empleados_por_parametros_graficos(dias=14))
 
         self.errorIdFecha.setVisible(False)
-        self.buscarNombre.setVisible(False)
         self.buscarApellido.setVisible(False)
         self.buscarCargo.setVisible(False)
         self.buscarTurno.setVisible(False)
@@ -26,7 +25,6 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
         self.turnoGrafico.setVisible(False)
         self.cargoGrafico.setVisible(False)
         self.idGrafico.setVisible(False)
-        self.filtroNombre.setVisible(False)
         self.filtroApellido.setVisible(False)
         self.filtroCargo.setVisible(False)
         self.filtroTurno.setVisible(False)
@@ -41,7 +39,6 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
 
 
         # Filtros para buscar empleados
-        self.filtroNombre.stateChanged.connect(self.actualizarFiltros)
         self.filtroApellido.stateChanged.connect(self.actualizarFiltros)
         self.filtroCargo.stateChanged.connect(self.actualizarFiltros)
         self.filtroTurno.stateChanged.connect(self.actualizarFiltros)
@@ -55,7 +52,6 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
         self.buscarRendimiento.clicked.connect(self.buscar_rendimiento_empleado)
 
         # Campos para buscar Empleados
-        self.buscarNombre.textChanged.connect(self.actualizar_empleados_por_parametros)
         self.buscarApellido.textChanged.connect(self.actualizar_empleados_por_parametros)
         self.buscarCargo.textChanged.connect(self.actualizar_empleados_por_parametros)
         self.buscarTurno.textChanged.connect(self.actualizar_empleados_por_parametros)
@@ -93,11 +89,6 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
             print(f"Error al abrir la ventana: {str(e)}")
 
     def actualizarFiltros(self):
-        if self.filtroNombre.isChecked():
-            self.buscarNombre.setVisible(True)
-        else:
-            self.buscarNombre.setVisible(False)
-
         if self.filtroApellido.isChecked():
             self.buscarApellido.setVisible(True)
         else:
@@ -114,12 +105,10 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
             self.buscarTurno.setVisible(False)
 
         if self.filtros.isChecked():
-            self.filtroNombre.setVisible(True)
             self.filtroApellido.setVisible(True)
             self.filtroCargo.setVisible(True)
             self.filtroTurno.setVisible(True)
         else:
-            self.filtroNombre.setVisible(False)
             self.filtroApellido.setVisible(False)
             self.filtroCargo.setVisible(False)
             self.filtroTurno.setVisible(False)
@@ -164,22 +153,17 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
             self.errorIdFecha.setVisible(True)
 
     def actualizar_empleados_por_parametros(self):
-        nombre = self.buscarNombre.text()
         apellido = self.buscarApellido.text()
         cargo = self.buscarCargo.text()
         turno = self.buscarTurno.text()
 
-        self.mostrar_empleados_por_parametros(nombre, apellido, cargo, turno)
+        self.actualizar_tabla_empleados_por_parametros(apellido, cargo, turno)
 
-    def mostrar_empleados_por_parametros(self, nombre=None, apellido=None, cargo=None, turno=None):
+    def actualizar_tabla_empleados_por_parametros(self, apellido=None, cargo=None, turno=None):
         try:
             with EmpleadosDatabase() as empleados_data:
                 query = "SELECT * FROM empleados WHERE 1=1"
                 params = []
-
-                if nombre:
-                    query += " AND nombre LIKE ?"
-                    params.append(f"%{nombre}%")
 
                 if apellido:
                     query += " AND apellido LIKE ?"
@@ -193,21 +177,9 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
                     query += " AND turno LIKE ?"
                     params.append(f"%{turno}%")
 
-                if nombre and apellido:
-                    query += " AND (nombre LIKE ? AND apellido LIKE ?)"
-                    params.extend([f"%{nombre}%", f"%{apellido}%"])
-
-                if nombre and cargo:
-                    query += " AND (nombre LIKE ? AND cargo LIKE ?)"
-                    params.extend([f"%{nombre}%", f"%{cargo}%"])
-
                 if cargo and turno:
                     query += " AND (cargo LIKE ? AND turno LIKE ?)"
                     params.extend([f"%{cargo}%", f"%{turno}%"])
-
-                if nombre and turno:
-                    query += " AND (nombre LIKE ? AND turno LIKE ?)"
-                    params.extend([f"%{nombre}%", f"%{turno}%"])
 
                 # Obtener los IDs de los empleados que coinciden con los filtros
                 ids_empleados = empleados_data.filtrar_por_campos(query, params, self.tablaEmpleados)

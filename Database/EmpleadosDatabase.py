@@ -110,6 +110,7 @@ class EmpleadosDatabase:
         params.append(fecha_final)
 
         try:
+            query += " LIMIT 1"
             self.cursor.execute(query, params)
             resultados = self.cursor.fetchall()
 
@@ -240,7 +241,7 @@ class EmpleadosDatabase:
         except Exception as e:
             print("Error al obtener los empleados:", str(e))
 
-    def obtener_parametros_empleados_filtrados(self, ids):
+    def obtener_parametros_empleados_filtrados_grafico(self, ids):
         try:
             ids = ids[0].strip('%[]')
             # Dividir la cadena en una lista de cadenas separadas por comas
