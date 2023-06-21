@@ -312,6 +312,23 @@ color: rgb(255, 0, 0);</string>
      <string>Añadir empleado</string>
     </property>
    </widget>
+   <widget class="QLabel" name="addExito">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>400</y>
+      <width>431</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 13pt &quot;Bell MT&quot;;
+color: rgb(51, 209, 122)</string>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;AÑADIDO CON EXITO&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources/>

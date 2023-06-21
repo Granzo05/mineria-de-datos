@@ -14,6 +14,7 @@ class AgregarEmpleado(QtWidgets.QMainWindow):
         self.cerrarSesion.clicked.connect(self.cerrar_sesion)
         self.volver.clicked.connect(self.volver_click)
         self.errorEmpleado.setVisible(False)
+        self.addExito.setVisible(False)
     def cerrar_sesion(self):
         try:
             from Vistas.LoginScreen import LoginScreen
@@ -48,6 +49,7 @@ class AgregarEmpleado(QtWidgets.QMainWindow):
             try:
                 with EmpleadosDatabase() as empleados_data:
                     empleados_data.agregar_empleado(nombre, apellido, cargo, turno)
+                    self.addExito.setVisible(True)
             except Exception as e:
                 print("Error al agregar empleado:", str(e))
                 self.errorEmpleado.setVisible(True)
