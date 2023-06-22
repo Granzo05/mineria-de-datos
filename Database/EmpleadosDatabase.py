@@ -288,13 +288,11 @@ class EmpleadosDatabase:
             placeholders = ",".join(["?"] * len(ids))
 
             # Construir la consulta SQL con los marcadores de posición
-            query = f"SELECT DISTINCT fecha, pasos_realizados, horas_de_trabajo, asistencia, nivel_estres, empleado_id FROM empleados_parametros WHERE fecha >= DATE('now', '-{dias} day') AND empleado_id IN ({placeholders})"
+            query = f"SELECT DISTINCT fecha, pasos_realizados, horas_de_trabajo, asistencia, nivel_estres, empleado_id FROM empleados_parametros WHERE fecha >= DATE('now', '-{dias} day') AND empleado_id IN ({placeholders}) AND pasos_realizados IS NOT NULL"
             params = ids
-
             try:
                 self.cursor.execute(query, params)
                 resultados_db = self.cursor.fetchall()
-
                 return resultados_db
 
             except Exception as e:
@@ -315,4 +313,35 @@ class EmpleadosDatabase:
 
         except Exception as e:
             print("Error al filtrar por campos en la base de datos:", str(e))
+
+    def filtrar_por_campos_empleado(self, id, tablaEmpleados):
+        query = "SELECT * FROM empleados WHERE id = ?"
+        try:
+            self.cursor.execute(query, id)
+            resultados = self.cursor.fetchall()
+            # Limpiar la tabla antes de agregar nuevos datos
+            tablaEmpleados.clearContents()
+            tablaEmpleados.setRowCount(0)
+
+            # Establecer las columnas a mostrar en la tabla
+            columnas = ["ID", "NOMBRE", "APELLIDO", "CARGO", "TURNO"]
+            tablaEmpleados.setColumnCount(len(columnas))
+            tablaEmpleados.setHorizontalHeaderLabels(columnas)
+
+            # Calcular la cantidad de filas necesarias para mostrar los resultados
+            num_rows = len(resultados)
+
+            # Establecer la cantidad de filas en la tabla
+            tablaEmpleados.setRowCount(num_rows)
+
+            for row, resultado in enumerate(resultados):
+                for col, valor in enumerate(resultado):
+                    item = QTableWidgetItem(str(valor))
+                    tablaEmpleados.setItem(row, col, item)
+
+            # Ajustar el tamaño de las columnas para que se ajusten al contenido
+            tablaEmpleados.resizeColumnsToContents()
+        except Exception as e:
+            print("Error al obtener los empleados:", str(e))
+
 
