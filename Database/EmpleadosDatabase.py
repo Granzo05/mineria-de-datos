@@ -100,12 +100,12 @@ class EmpleadosDatabase:
         fecha_final = None
     
         if fecha_input is not None:
-            fecha_qdate = QtCore.QDate.fromString(fecha_input, "dd/MM/yyyy")
-            if fecha_qdate.isValid() and fecha_qdate.dayOfWeek() < 6:
-                fecha_final = fecha_qdate.toString(QtCore.Qt.DateFormat.ISODate)
-                query += " AND fecha = ?"
-            else:
-                return []
+        fecha_qdate = QtCore.QDate.fromString(fecha_input, "dd/MM/yyyy")
+        if fecha_qdate.isValid() and fecha_qdate.dayOfWeek() < 6:
+            fecha_final = fecha_qdate.toString(QtCore.Qt.ISODate)
+            query += " AND fecha = ?"
+        else:
+            return []
     
         params.append(idEmpleado)
         
@@ -133,8 +133,14 @@ class EmpleadosDatabase:
 
             for row, resultado in enumerate(resultados):
                 for col, valor in enumerate(resultado):
-                    item = QTableWidgetItem(str(valor))
-                    tablaDatos.setItem(row, col, item)
+                    if col == 1:  # Índice de la columna 'FECHA'
+                        fecha = QtCore.QDate.fromString(str(valor), QtCore.Qt.ISODate)
+                        fecha_str = fecha.toString("dd/MM/yyyy")
+                        item = QTableWidgetItem(fecha_str)
+                    else:
+                        item = QTableWidgetItem(str(valor))
+                        tablaDatos.setItem(row, col, item)
+
 
             # Ajustar el tamaño de las columnas para que se ajusten al contenido
             tablaDatos.resizeColumnsToContents()
