@@ -24,6 +24,7 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
         self.buscarCargo.setVisible(False)
         self.buscarTurno.setVisible(False)
         self.errorGraficos.setVisible(False)
+        self.filtros.stateChanged.connect(self.actualizarFiltros)
 
         self.buscarRendimiento.clicked.connect(self.buscar_rendimiento_empleado)
 
@@ -57,6 +58,16 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
             self.close()
         except Exception as e:
             print(f"Error al abrir la ventana: {str(e)}")
+
+    def actualizarFiltros(self):
+        if self.filtros.isChecked():
+            self.buscarApellido.setVisible(True)
+            self.buscarCargo.setVisible(True)
+            self.buscarTurno.setVisible(True)
+        else:
+            self.buscarApellido.setVisible(False)
+            self.buscarCargo.setVisible(False)
+            self.buscarTurno.setVisible(False)
 
     def buscar_rendimiento_empleado(self):
         fechaInput = self.fechaRendimiento.text()
@@ -130,45 +141,43 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
 
                     with EmpleadosDatabase() as empleados_data:
                         resultados = empleados_data.filtrar_por_campos_para_graficar(dias, ids_empleados)
+                        # Convertir la lista de empleados en un DataFrame de pandas
+                        df = pd.DataFrame(resultados,
+                                          columns=['fecha', 'pasos_realizados', 'horas_de_trabajo', 'asistencia',
+                                                   'nivel_estres',
+                                                   'empleado_id'])
 
-                    # Convertir la lista de empleados en un DataFrame de pandas
-                    df = pd.DataFrame(resultados,
-                                      columns=['fecha', 'pasos_realizados', 'horas_de_trabajo', 'asistencia',
-                                               'nivel_estres',
-                                               'empleado_id'])
+                        df['fecha'] = pd.to_datetime(df['fecha'])
 
-                    df['fecha'] = pd.to_datetime(df['fecha'])
+                        filtro_dias = df[df['fecha'] >= pd.Timestamp.now() - pd.DateOffset(days=dias)]
 
-                    filtro_dias = df[df['fecha'] >= pd.Timestamp.now() - pd.DateOffset(days=dias)]
-                    # Imprimir los resultados de cada día
-                    for _, row in filtro_dias.iterrows():
-                        fecha = row['fecha'].strftime("%d-%m-%Y")
-                        pasos_realizados = row['pasos_realizados']
-                        horas_de_trabajo = row['horas_de_trabajo']
-                        nivel_estres = row['nivel_estres']
+                        # Calcular las sumas de los parámetros para todos los empleados en un día
+                        suma_pasos = filtro_dias.groupby('fecha')['pasos_realizados'].sum()
+                        suma_horas_trabajo = filtro_dias.groupby('fecha')['horas_de_trabajo'].sum()
+                        suma_estres = filtro_dias.groupby('fecha')['nivel_estres'].mean()
 
-                    # Crear gráfico para los pasos
-                    plt.subplot(2, 1, 1)
-                    plt.plot(pasos_realizados, pasos_realizados, label='Pasos Realizados')
-                    plt.xlabel('Fecha')
-                    plt.ylabel('Pasos')
-                    plt.title('Pasos Realizados en los últimos {} días'.format(dias))
-                    plt.xticks(rotation=45)
-                    plt.legend()
+                        # Crear gráfico para los pasos
+                        plt.subplot(2, 1, 1)
+                        plt.plot(suma_pasos.index, suma_pasos, label='Pasos Realizados')
+                        plt.xlabel('Fecha')
+                        plt.ylabel('Pasos')
+                        plt.title('Pasos Realizados en los últimos {} días'.format(dias))
+                        plt.xticks(rotation=45)
+                        plt.legend()
 
-                    # Crear gráfico combinado para el estrés, asistencia y horas
-                    plt.subplot(2, 1, 2)
-                    plt.plot(horas_de_trabajo, horas_de_trabajo, label='Horas de Trabajo')
-                    plt.plot(nivel_estres, nivel_estres, label='Nivel de Estrés')
-                    plt.xlabel('Fecha')
-                    plt.ylabel('Valor')
-                    plt.title('Horas de Trabajo, Asistencia y Nivel de Estrés en los últimos {} días'.format(dias))
-                    plt.xticks(rotation=45)
-                    plt.legend()
+                        # Crear gráfico combinado para el estrés, asistencia y horas
+                        plt.subplot(2, 1, 2)
+                        plt.plot(suma_horas_trabajo.index, suma_horas_trabajo, label='Horas de Trabajo')
+                        plt.plot(suma_estres.index, suma_estres, label='Nivel de Estrés')
+                        plt.xlabel('Fecha')
+                        plt.ylabel('Valor')
+                        plt.title('Horas de Trabajo, Asistencia y Nivel de Estrés en los últimos {} días'.format(dias))
+                        plt.xticks(rotation=45)
+                        plt.legend()
 
-                    # Mostrar ambos gráficos
-                    plt.tight_layout()
-                    plt.show()
+                        # Mostrar ambos gráficos
+                        plt.tight_layout()
+                        plt.show()
 
             except Exception as e:
                 print("Error al obtener los empleados:", str(e))
@@ -193,7 +202,6 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
             with EmpleadosDatabase() as empleados_data:
                 resultados = empleados_data.filtrar_por_campos_para_graficar(dias, ids_empleados)
                 print(resultados)
-
             # Convertir la lista de empleados en un DataFrame de pandas
             df = pd.DataFrame(resultados,
                               columns=['fecha', 'pasos_realizados', 'horas_de_trabajo', 'asistencia', 'nivel_estres',
@@ -206,8 +214,6 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
             # Calcular las sumas de los parámetros para todos los empleados en un día
             suma_pasos = filtro_dias.groupby('fecha')['pasos_realizados'].sum()
             suma_horas_trabajo = filtro_dias.groupby('fecha')['horas_de_trabajo'].sum()
-            suma_asistencia = filtro_dias.groupby('fecha')['asistencia'].apply(
-                lambda x: (x == 'Presente').sum())
             suma_estres = filtro_dias.groupby('fecha')['nivel_estres'].mean()
 
             # Crear gráfico para los pasos
@@ -222,7 +228,6 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
             # Crear gráfico combinado para el estrés, asistencia y horas
             plt.subplot(2, 1, 2)
             plt.plot(suma_horas_trabajo.index, suma_horas_trabajo, label='Horas de Trabajo')
-            plt.plot(suma_asistencia.index, suma_asistencia, label='Asistencia')
             plt.plot(suma_estres.index, suma_estres, label='Nivel de Estrés')
             plt.xlabel('Fecha')
             plt.ylabel('Valor')

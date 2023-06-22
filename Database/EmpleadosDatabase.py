@@ -138,13 +138,13 @@ class EmpleadosDatabase:
 
     def agregar_empleado(self, nombre, apellido, cargo, turno):
         try:
-            sql = "INSERT INTO empleados (nombre, apellido, cargo, turno) VALUES (?, ?, ?, ?)"
+            query = "INSERT INTO empleados (nombre, apellido, cargo, turno) VALUES (?, ?, ?, ?)"
 
             # Valores a insertar
             valores = (nombre, apellido, cargo, turno)
 
             # Ejecutar la sentencia SQL
-            self.conn.execute(sql, valores)
+            self.conn.execute(query, valores)
 
             # Guardar los cambios
             self.conn.commit()
@@ -289,7 +289,6 @@ class EmpleadosDatabase:
             try:
                 self.cursor.execute(query, params)
                 resultados_db = self.cursor.fetchall()
-                print(resultados_db)
                 return resultados_db
 
             except Exception as e:
