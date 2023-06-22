@@ -18,6 +18,7 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
         self.cerrarSesion.clicked.connect(self.cerrar_sesion)
         self.ultimos31.clicked.connect(lambda: self.mostrar_empleados_por_parametros_graficos(dias=31, id=self.idRendimiento.text()))
         self.ultimos14.clicked.connect(lambda: self.mostrar_empleados_por_parametros_graficos(dias=14, id=self.idRendimiento.text()))
+        self.restaurar.clicked.connect(self.cargar_tablas)
 
         self.errorIdFecha.setVisible(False)
         self.buscarApellido.setVisible(False)
@@ -28,6 +29,8 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
 
         self.buscarRendimiento.clicked.connect(self.buscar_rendimiento_empleado)
 
+
+
         # Campos para buscar Empleados
         self.buscarApellido.textChanged.connect(self.actualizar_empleados_por_parametros)
         self.buscarCargo.textChanged.connect(self.actualizar_empleados_por_parametros)
@@ -37,10 +40,12 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
 
         self.fechaRendimiento.setDate(fecha_inicio)
 
+        self.cargar_tablas()
+
+    def cargar_tablas(self):
         with EmpleadosDatabase() as empleados_data:
             empleados_data.obtener_parametros_empleados(self.tablaDatos)
             empleados_data.traer_empleados(self.tablaEmpleados)
-
     def salir_screen(self):
         self.close()
 
