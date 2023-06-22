@@ -99,13 +99,10 @@ class EmpleadosDatabase:
         params = []
         fecha_final = None
     
-        if fecha_input is not None:
         fecha_qdate = QtCore.QDate.fromString(fecha_input, "dd/MM/yyyy")
         if fecha_qdate.isValid() and fecha_qdate.dayOfWeek() < 6:
             fecha_final = fecha_qdate.toString(QtCore.Qt.ISODate)
             query += " AND fecha = ?"
-        else:
-            return []
     
         params.append(idEmpleado)
         
