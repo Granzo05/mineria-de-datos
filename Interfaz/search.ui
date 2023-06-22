@@ -137,7 +137,7 @@
      <rect>
       <x>10</x>
       <y>350</y>
-      <width>191</width>
+      <width>221</width>
       <height>21</height>
      </rect>
     </property>
@@ -394,9 +394,9 @@ color: rgb(255, 255, 255);</string>
    <widget class="QLabel" name="errorGraficos">
     <property name="geometry">
      <rect>
-      <x>770</x>
+      <x>750</x>
       <y>340</y>
-      <width>371</width>
+      <width>411</width>
       <height>41</height>
      </rect>
     </property>
