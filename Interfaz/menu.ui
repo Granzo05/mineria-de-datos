@@ -113,10 +113,10 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
    <widget class="QPushButton" name="buscar">
     <property name="geometry">
      <rect>
-      <x>430</x>
-      <y>360</y>
-      <width>211</width>
-      <height>61</height>
+      <x>390</x>
+      <y>370</y>
+      <width>291</width>
+      <height>71</height>
      </rect>
     </property>
     <property name="text">
@@ -126,10 +126,10 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
    <widget class="QPushButton" name="agregar">
     <property name="geometry">
      <rect>
-      <x>430</x>
+      <x>390</x>
       <y>280</y>
-      <width>211</width>
-      <height>61</height>
+      <width>291</width>
+      <height>71</height>
      </rect>
     </property>
     <property name="text">
