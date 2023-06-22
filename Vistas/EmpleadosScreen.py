@@ -222,7 +222,6 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
                     df['fecha'] = pd.to_datetime(df['fecha'])
 
                     filtro_dias = df[df['fecha'] >= pd.Timestamp.now() - pd.DateOffset(days=dias)]
-                    print(filtro_dias)
                     # Imprimir los resultados de cada día
                     for _, row in filtro_dias.iterrows():
                         fecha = row['fecha'].strftime("%d-%m-%Y")
