@@ -45,11 +45,19 @@ class AgregarEmpleado(QtWidgets.QMainWindow):
         cargo = self.cargoEmpleado.text()
         turno = self.turnoEmpleado.text()
 
+        self.addExito.setVisible(False)
+        self.errorEmpleado.setVisible(False)
         if nombre and apellido and cargo and turno:
+            self.addExito.setVisible(False)
+            self.errorEmpleado.setVisible(False)
             try:
                 with EmpleadosDatabase() as empleados_data:
                     empleados_data.agregar_empleado(nombre, apellido, cargo, turno)
                     self.addExito.setVisible(True)
+                    self.nombreEmpleado.setText("")
+                    self.apellidoEmpleado.setText("")
+                    self.cargoEmpleado.setText("")
+                    self.turnoEmpleado.setText("")
             except Exception as e:
                 print("Error al agregar empleado:", str(e))
                 self.errorEmpleado.setVisible(True)
