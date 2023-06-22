@@ -68,6 +68,9 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
             self.buscarApellido.setVisible(False)
             self.buscarCargo.setVisible(False)
             self.buscarTurno.setVisible(False)
+            self.buscarApellido.setText("")
+            self.buscarCargo.setText("")
+            self.buscarTurno.setText("")
 
     def buscar_rendimiento_empleado(self):
         fechaInput = self.fechaRendimiento.text()
