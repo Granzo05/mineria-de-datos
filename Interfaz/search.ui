@@ -67,9 +67,9 @@
    <widget class="QPushButton" name="salir">
     <property name="geometry">
      <rect>
-      <x>564</x>
+      <x>554</x>
       <y>670</y>
-      <width>81</width>
+      <width>91</width>
       <height>23</height>
      </rect>
     </property>
@@ -85,7 +85,7 @@
      <rect>
       <x>364</x>
       <y>670</y>
-      <width>101</width>
+      <width>91</width>
       <height>23</height>
      </rect>
     </property>
@@ -99,7 +99,7 @@
    <widget class="QPushButton" name="volver">
     <property name="geometry">
      <rect>
-      <x>470</x>
+      <x>460</x>
       <y>670</y>
       <width>91</width>
       <height>23</height>
@@ -132,62 +132,23 @@
      </rect>
     </property>
    </widget>
-   <widget class="QCheckBox" name="filtroApellido">
-    <property name="geometry">
-     <rect>
-      <x>110</x>
-      <y>350</y>
-      <width>91</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Apellido</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="filtroCargo">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>350</y>
-      <width>91</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Cargo</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="filtroTurno">
-    <property name="geometry">
-     <rect>
-      <x>300</x>
-      <y>350</y>
-      <width>91</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Turno</string>
-    </property>
-   </widget>
    <widget class="QCheckBox" name="filtros">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>330</y>
-      <width>70</width>
+      <x>10</x>
+      <y>350</y>
+      <width>191</width>
       <height>21</height>
      </rect>
     </property>
     <property name="text">
-     <string>Filtros</string>
+     <string>Filtros para buscar empleado</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="buscarApellido">
     <property name="geometry">
      <rect>
-      <x>40</x>
+      <x>10</x>
       <y>220</y>
       <width>201</width>
       <height>21</height>
@@ -206,8 +167,8 @@
    <widget class="QLineEdit" name="buscarCargo">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>260</y>
+      <x>10</x>
+      <y>270</y>
       <width>201</width>
       <height>21</height>
      </rect>
@@ -225,8 +186,8 @@
    <widget class="QLineEdit" name="buscarTurno">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>300</y>
+      <x>10</x>
+      <y>320</y>
       <width>201</width>
       <height>21</height>
      </rect>
@@ -252,38 +213,6 @@
     </property>
     <property name="styleSheet">
      <string notr="true">image: url(:Imagenes/apellido.png);</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="iconCargo">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>260</y>
-      <width>31</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">image: url(:/iconos/cargo.png);</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="iconTurno">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>300</y>
-      <width>31</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">image: url(:/iconos/turno.png);</string>
     </property>
     <property name="text">
      <string/>
@@ -384,18 +313,16 @@
                     </string>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;¡ERROR! ID o fecha
-                        incorrectos&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;
-                    </string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;¡ERROR! ID o fecha incorrectos &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
       <x>-10</x>
-      <y>110</y>
+      <y>180</y>
       <width>281</width>
-      <height>91</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -408,10 +335,10 @@
    <widget class="QPushButton" name="ultimos31">
     <property name="geometry">
      <rect>
-      <x>1010</x>
-      <y>180</y>
-      <width>141</width>
-      <height>23</height>
+      <x>880</x>
+      <y>290</y>
+      <width>161</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="text">
@@ -421,119 +348,14 @@
    <widget class="QPushButton" name="ultimos14">
     <property name="geometry">
      <rect>
-      <x>860</x>
-      <y>180</y>
-      <width>141</width>
-      <height>23</height>
+      <x>880</x>
+      <y>220</y>
+      <width>161</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="text">
      <string>ULTIMOS 14 DIAS</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="diasGrafico">
-    <property name="geometry">
-     <rect>
-      <x>1000</x>
-      <y>310</y>
-      <width>151</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border-radius:10px;</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="placeholderText">
-     <string> Cantidad de dias</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="turnoGrafico">
-    <property name="geometry">
-     <rect>
-      <x>1000</x>
-      <y>280</y>
-      <width>151</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border-radius:10px;</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="placeholderText">
-     <string> Turno de empleados</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="cargoGrafico">
-    <property name="geometry">
-     <rect>
-      <x>1000</x>
-      <y>250</y>
-      <width>151</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border-radius:10px;</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="placeholderText">
-     <string> Cargo de empleados</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="idGraficoLabel">
-    <property name="geometry">
-     <rect>
-      <x>950</x>
-      <y>210</y>
-      <width>71</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">image: url(:/iconos/id.png);</string>
-    </property>
-    <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="idGrafico">
-    <property name="geometry">
-     <rect>
-      <x>1000</x>
-      <y>220</y>
-      <width>151</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border-radius:10px;</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="placeholderText">
-     <string> ID del empleado</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="busquedaPersonalizada">
-    <property name="geometry">
-     <rect>
-      <x>950</x>
-      <y>340</y>
-      <width>211</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>BÚSQUEDA PERSONALIZADA</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_4">
@@ -555,9 +377,9 @@
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>850</x>
-      <y>140</y>
-      <width>311</width>
+      <x>770</x>
+      <y>180</y>
+      <width>391</width>
       <height>31</height>
      </rect>
     </property>
@@ -566,135 +388,25 @@
 color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;RENDIMIENTO EN GRÁFICOS&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;BÚSQUEDA RENDIMIENTO EN GRÁFICOS&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QLabel" name="iconCargo_2">
-    <property name="geometry">
-     <rect>
-      <x>970</x>
-      <y>250</y>
-      <width>31</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">image: url(:/iconos/cargo.png);</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="iconTurno_2">
-    <property name="geometry">
-     <rect>
-      <x>970</x>
-      <y>280</y>
-      <width>31</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">image: url(:/iconos/turno.png);</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="iconTurno_3">
-    <property name="geometry">
-     <rect>
-      <x>970</x>
-      <y>310</y>
-      <width>31</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">image: url(:/iconos/icono_calendario.png);</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="filtroTurnoGrafico">
+   <widget class="QLabel" name="errorGraficos">
     <property name="geometry">
      <rect>
       <x>770</x>
-      <y>300</y>
-      <width>91</width>
-      <height>31</height>
+      <y>340</y>
+      <width>371</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);</string>
+     <string notr="true">font: 11pt &quot;Bell MT&quot;;
+                        color: rgb(255, 0, 0);
+                    </string>
     </property>
     <property name="text">
-     <string>Turno</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="filtroPerso">
-    <property name="geometry">
-     <rect>
-      <x>770</x>
-      <y>210</y>
-      <width>191</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);</string>
-    </property>
-    <property name="text">
-     <string>Búsqueda personalizada</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="filtroDiasGrafico">
-    <property name="geometry">
-     <rect>
-      <x>770</x>
-      <y>330</y>
-      <width>91</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);</string>
-    </property>
-    <property name="text">
-     <string>Días</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="filtroIdGrafico">
-    <property name="geometry">
-     <rect>
-      <x>770</x>
-      <y>240</y>
-      <width>91</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);</string>
-    </property>
-    <property name="text">
-     <string>ID</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="filtroCargoGrafico">
-    <property name="geometry">
-     <rect>
-      <x>770</x>
-      <y>270</y>
-      <width>91</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);</string>
-    </property>
-    <property name="text">
-     <string>Cargo</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;¡ERROR! No hay empleados y/o datos para graficar&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
   </widget>

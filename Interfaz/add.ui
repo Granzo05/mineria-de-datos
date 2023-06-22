@@ -323,10 +323,10 @@ color: rgb(255, 0, 0);</string>
     </property>
     <property name="styleSheet">
      <string notr="true">font: 13pt &quot;Bell MT&quot;;
-color: rgb(51, 209, 122)</string>
+color: rgb(0, 138, 0)</string>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;AÑADIDO CON EXITO&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;¡EMPLEADO AÑADIDO CON EXITO!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
   </widget>
