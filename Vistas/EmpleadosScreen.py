@@ -75,7 +75,7 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
     def buscar_rendimiento_empleado(self):
         fechaInput = self.fechaRendimiento.text()
         id = self.idRendimiento.text()
-
+        print(fechaInput, "AAAAAAAAAAAAAA")
         if fechaInput and id:
             with EmpleadosDatabase() as empleados_data:
                 empleados_data.buscar_rendimiento_empleado(id, fechaInput, self.tablaDatos)
