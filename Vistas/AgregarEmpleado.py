@@ -1,6 +1,6 @@
 from Database.EmpleadosDatabase import EmpleadosDatabase
 from PyQt5 import QtWidgets, uic
-
+import time
 
 class AgregarEmpleado(QtWidgets.QMainWindow):
     def __init__(self):
@@ -15,6 +15,8 @@ class AgregarEmpleado(QtWidgets.QMainWindow):
         self.volver.clicked.connect(self.volver_click)
         self.errorEmpleado.setVisible(False)
         self.addExito.setVisible(False)
+        #self.errorCamposVacios.setVisible(False)
+        
     def cerrar_sesion(self):
         try:
             from Vistas.LoginScreen import LoginScreen
@@ -40,27 +42,31 @@ class AgregarEmpleado(QtWidgets.QMainWindow):
             print("Error al volver:", str(e))
 
     def agregar_empleado(self):
-        nombre = self.nombreEmpleado.text()
-        apellido = self.apellidoEmpleado.text()
-        cargo = self.cargoEmpleado.text()
-        turno = self.turnoEmpleado.text()
+    nombre = self.nombreEmpleado.text()
+    apellido = self.apellidoEmpleado.text()
+    cargo = self.cargoEmpleado.text()
+    turno = self.turnoEmpleado.text()
 
-        self.addExito.setVisible(False)
-        self.errorEmpleado.setVisible(False)
-        if nombre and apellido and cargo and turno:
-            self.addExito.setVisible(False)
-            self.errorEmpleado.setVisible(False)
-            try:
-                with EmpleadosDatabase() as empleados_data:
-                    empleados_data.agregar_empleado(nombre, apellido, cargo, turno)
-                    self.addExito.setVisible(True)
-                    self.nombreEmpleado.setText("")
-                    self.apellidoEmpleado.setText("")
-                    self.cargoEmpleado.setText("")
-                    self.turnoEmpleado.setText("")
-            except Exception as e:
-                print("Error al agregar empleado:", str(e))
-                self.errorEmpleado.setVisible(True)
-        else:
-            print("Todos los campos deben estar completos.")
+    if nombre and apellido and cargo and turno:            
+        try:
+            with EmpleadosDatabase() as empleados_data:
+                empleados_data.agregar_empleado(nombre, apellido, cargo, turno)
+                
+                self.addExito.setVisible(True)
+                self.nombreEmpleado.setText("")
+                self.apellidoEmpleado.setText("")
+                self.cargoEmpleado.setText("")
+                self.turnoEmpleado.setText("")
+                
+                time.sleep(1)                
+                self.addExito.setVisible(False)
+        except Exception as e:
+            print("Error al agregar empleado:", str(e))
             self.errorEmpleado.setVisible(True)
+            time.sleep(1)                
+            self.errorEmpleado.setVisible(False)
+    else:
+        print("Todos los campos deben estar completos.")
+        #self.errorCamposVacios.setVisible(True)
+        #time.sleep(1)                
+        #self.errorCamposVacios.setVisible(False)
