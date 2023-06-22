@@ -15,7 +15,6 @@ class AgregarEmpleado(QtWidgets.QMainWindow):
         self.volver.clicked.connect(self.volver_click)
         self.errorEmpleado.setVisible(False)
         self.addExito.setVisible(False)
-        #self.errorCamposVacios.setVisible(False)
         
     def cerrar_sesion(self):
         try:
@@ -67,6 +66,6 @@ class AgregarEmpleado(QtWidgets.QMainWindow):
             self.errorEmpleado.setVisible(False)
     else:
         print("Todos los campos deben estar completos.")
-        #self.errorCamposVacios.setVisible(True)
-        #time.sleep(1)                
-        #self.errorCamposVacios.setVisible(False)
+        self.errorEmpleado.setVisible(True)
+        time.sleep(1)                
+        self.errorEmpleado.setVisible(False)
