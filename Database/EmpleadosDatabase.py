@@ -96,14 +96,14 @@ class EmpleadosDatabase:
 
     def buscar_rendimiento_empleado(self, idEmpleado, fecha_input, tablaDatos):
 
-        query = "SELECT * FROM empleados_parametros WHERE empleado_id = ?"
+        query = "SELECT * FROM empleados_parametros WHERE empleado_id = ? AND fecha = ?"
         params = [idEmpleado]
         fecha_final = None
 
         fecha_qdate = QtCore.QDate.fromString(fecha_input, "dd/MM/yyyy")
         if fecha_qdate.isValid() and fecha_qdate.dayOfWeek() < 6:
             fecha_final = fecha_qdate.toString(QtCore.Qt.ISODate)
-            #params.append(fecha_final)
+            params.append(fecha_final)
             try:
                 self.cursor.execute(query, params)
                 resultados = self.cursor.fetchall()
