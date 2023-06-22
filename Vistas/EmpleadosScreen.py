@@ -25,9 +25,6 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
         self.filtroCargo.setVisible(False)
         self.filtroTurno.setVisible(False)
         self.filtros.stateChanged.connect(self.actualizarFiltros)
-        self.filtroPerso.stateChanged.connect(self.actualizarFiltrosGrafico)
-        self.filtroPerso.setVisible(False)
-        self.busquedaPersonalizada.setVisible(False)
 
 
         # Filtros para buscar empleados
@@ -42,7 +39,7 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
         self.buscarCargo.textChanged.connect(self.actualizar_empleados_por_parametros)
         self.buscarTurno.textChanged.connect(self.actualizar_empleados_por_parametros)
 
-        fecha_inicio = QDate(2023, 4, 27)
+        fecha_inicio = QDate(2023, 4, 24)
 
         self.fechaRendimiento.setDate(fecha_inicio)
 
@@ -165,7 +162,6 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
 
                     with EmpleadosDatabase() as empleados_data:
                         resultados = empleados_data.filtrar_por_campos_para_graficar(dias, ids_empleados)
-                        print(resultados)
 
                     # Convertir la lista de empleados en un DataFrame de pandas
                     df = pd.DataFrame(resultados,
