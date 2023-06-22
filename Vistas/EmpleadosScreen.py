@@ -178,9 +178,13 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
                 # Obtener los IDs de los empleados que coinciden con los filtros
                 ids_empleados = empleados_data.filtrar_por_campos(query, params, self.tablaEmpleados)
 
-                # Obtener los parámetros de los empleados filtrados
-                params = [f"%{ids_empleados}%"]
-                empleados_data.obtener_parametros_empleados_filtrados(params, self.tablaDatos)
+                # Generar la cadena de marcadores de posición para los IDs de empleados
+                placeholders = ",".join(["?"] * len(ids_empleados))
+
+                # Obtener los parámetros de los empleados filtrados usando los IDs
+                query_parametros = f"SELECT * FROM empleados_parametros WHERE empleado_id IN ({placeholders})"
+                params_parametros = ids_empleados
+                empleados_data.obtener_parametros_empleados_filtrados(query_parametros, params_parametros, self.tablaDatos)
 
         except Exception as e:
             print("Error al obtener los empleados:", str(e))
@@ -227,18 +231,7 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
                         fecha = row['fecha'].strftime("%d-%m-%Y")
                         pasos_realizados = row['pasos_realizados']
                         horas_de_trabajo = row['horas_de_trabajo']
-                        asistencia = row['asistencia']
                         nivel_estres = row['nivel_estres']
-                        empleado_id = row['empleado_id']
-
-                        print("Fecha:", fecha)
-                        print("Pasos realizados:", pasos_realizados)
-                        print("Horas de trabajo:", horas_de_trabajo)
-                        print("Asistencia:", asistencia)
-                        print("Nivel de estrés:", nivel_estres)
-                        print("ID del empleado:", empleado_id)
-                        print("--------------------------------------")
-
 
                     # Crear gráfico para los pasos
                     plt.subplot(2, 1, 1)

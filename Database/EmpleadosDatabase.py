@@ -110,7 +110,6 @@ class EmpleadosDatabase:
         params.append(fecha_final)
 
         try:
-            query += " LIMIT 1"
             self.cursor.execute(query, params)
             resultados = self.cursor.fetchall()
 
@@ -136,6 +135,7 @@ class EmpleadosDatabase:
 
             # Ajustar el tamaño de las columnas para que se ajusten al contenido
             tablaDatos.resizeColumnsToContents()
+
         except Exception as e:
             print("Error al buscar los datos del empleado en la base de datos:", str(e))
             return []
@@ -318,7 +318,7 @@ class EmpleadosDatabase:
     def filtrar_por_campos_empleado(self, id, tablaEmpleados):
         query = "SELECT * FROM empleados WHERE id = ?"
         try:
-            self.cursor.execute(query, id)
+            self.cursor.execute(query, (id,))
             resultados = self.cursor.fetchall()
             # Limpiar la tabla antes de agregar nuevos datos
             tablaEmpleados.clearContents()
@@ -343,6 +343,7 @@ class EmpleadosDatabase:
             # Ajustar el tamaño de las columnas para que se ajusten al contenido
             tablaEmpleados.resizeColumnsToContents()
         except Exception as e:
+            print("F")
             print("Error al obtener los empleados:", str(e))
 
 
