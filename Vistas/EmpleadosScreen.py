@@ -154,7 +154,7 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
                         # Calcular las sumas de los parámetros para todos los empleados en un día
                         suma_pasos = filtro_dias.groupby('fecha')['pasos_realizados'].sum()
                         suma_horas_trabajo = filtro_dias.groupby('fecha')['horas_de_trabajo'].sum()
-                        suma_estres = filtro_dias.groupby('fecha')['nivel_estres'].mean()
+                        suma_estres = filtro_dias.groupby('fecha')['nivel_estres'].sum()
 
                         # Crear gráfico para los pasos
                         plt.subplot(2, 1, 1)
@@ -201,7 +201,6 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
 
             with EmpleadosDatabase() as empleados_data:
                 resultados = empleados_data.filtrar_por_campos_para_graficar(dias, ids_empleados)
-                print(resultados)
             # Convertir la lista de empleados en un DataFrame de pandas
             df = pd.DataFrame(resultados,
                               columns=['fecha', 'pasos_realizados', 'horas_de_trabajo', 'asistencia', 'nivel_estres',
@@ -214,7 +213,7 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
             # Calcular las sumas de los parámetros para todos los empleados en un día
             suma_pasos = filtro_dias.groupby('fecha')['pasos_realizados'].sum()
             suma_horas_trabajo = filtro_dias.groupby('fecha')['horas_de_trabajo'].sum()
-            suma_estres = filtro_dias.groupby('fecha')['nivel_estres'].mean()
+            suma_estres = filtro_dias.groupby('fecha')['nivel_estres'].sum()
 
             # Crear gráfico para los pasos
             plt.subplot(2, 1, 1)

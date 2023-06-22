@@ -148,7 +148,6 @@ class EmpleadosDatabase:
 
             # Guardar los cambios
             self.conn.commit()
-            print("Listo")
         except Exception as e:
             print("Error al agregar empleado:", str(e))
 
@@ -272,7 +271,7 @@ class EmpleadosDatabase:
     def filtrar_por_campos_para_graficar(self, dias, ids):
         try:
             if ids:
-                ids = str(ids[0]).strip('%[]')
+                ids = str(ids).strip('%[]')
                 # Dividir la cadena en una lista de cadenas separadas por comas
                 ids_list = ids.split(',')
                 # Convertir cada cadena a un número entero
@@ -282,7 +281,6 @@ class EmpleadosDatabase:
 
             # Construir la parte de la consulta con los marcadores de posición
             placeholders = ",".join(["?"] * len(ids))
-
             # Construir la consulta SQL con los marcadores de posición
             query = f"SELECT DISTINCT fecha, pasos_realizados, horas_de_trabajo, asistencia, nivel_estres, empleado_id FROM empleados_parametros WHERE fecha >= DATE('now', '-{dias} day') AND empleado_id IN ({placeholders}) AND pasos_realizados IS NOT NULL"
             params = ids
@@ -338,5 +336,4 @@ class EmpleadosDatabase:
             # Ajustar el tamaño de las columnas para que se ajusten al contenido
             tablaEmpleados.resizeColumnsToContents()
         except Exception as e:
-            print("F")
             print("Error al obtener los empleados:", str(e))
