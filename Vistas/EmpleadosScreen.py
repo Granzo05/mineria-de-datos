@@ -21,17 +21,9 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
         self.buscarApellido.setVisible(False)
         self.buscarCargo.setVisible(False)
         self.buscarTurno.setVisible(False)
-        self.diasGrafico.setVisible(False)
-        self.turnoGrafico.setVisible(False)
-        self.cargoGrafico.setVisible(False)
-        self.idGrafico.setVisible(False)
         self.filtroApellido.setVisible(False)
         self.filtroCargo.setVisible(False)
         self.filtroTurno.setVisible(False)
-        self.filtroTurnoGrafico.setVisible(False)
-        self.filtroCargoGrafico.setVisible(False)
-        self.filtroIdGrafico.setVisible(False)
-        self.filtroDiasGrafico.setVisible(False)
         self.filtros.stateChanged.connect(self.actualizarFiltros)
         self.filtroPerso.stateChanged.connect(self.actualizarFiltrosGrafico)
         self.filtroPerso.setVisible(False)
@@ -42,12 +34,6 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
         self.filtroApellido.stateChanged.connect(self.actualizarFiltros)
         self.filtroCargo.stateChanged.connect(self.actualizarFiltros)
         self.filtroTurno.stateChanged.connect(self.actualizarFiltros)
-
-        # Filtros para los graficos
-        self.filtroTurnoGrafico.stateChanged.connect(self.actualizarFiltrosGrafico)
-        self.filtroCargoGrafico.stateChanged.connect(self.actualizarFiltrosGrafico)
-        self.filtroIdGrafico.stateChanged.connect(self.actualizarFiltrosGrafico)
-        self.filtroDiasGrafico.stateChanged.connect(self.actualizarFiltrosGrafico)
 
         self.buscarRendimiento.clicked.connect(self.buscar_rendimiento_empleado)
 
@@ -107,33 +93,6 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
             self.filtroCargo.setVisible(False)
             self.filtroTurno.setVisible(False)
 
-    def actualizarFiltrosGrafico(self):
-        if self.filtroTurnoGrafico.isChecked():
-            self.turnoGrafico.setVisible(True)
-        else:
-            self.turnoGrafico.setVisible(False)
-
-        if self.filtroCargoGrafico.isChecked():
-            self.cargoGrafico.setVisible(True)
-        else:
-            self.cargoGrafico.setVisible(False)
-
-        if self.filtroIdGrafico.isChecked():
-            self.idGrafico.setVisible(True)
-        else:
-            self.idGrafico.setVisible(False)
-
-        if self.filtroPerso.isChecked():
-            self.filtroTurnoGrafico.setVisible(True)
-            self.filtroCargoGrafico.setVisible(True)
-            self.filtroIdGrafico.setVisible(True)
-            self.diasGrafico.setVisible(True)
-        else:
-            self.filtroTurnoGrafico.setVisible(False)
-            self.filtroCargoGrafico.setVisible(False)
-            self.filtroIdGrafico.setVisible(False)
-            self.filtroDiasGrafico.setVisible(False)
-
     def buscar_rendimiento_empleado(self):
         fechaInput = self.fechaRendimiento.text()
         id = self.idRendimiento.text()
@@ -188,17 +147,6 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
 
         except Exception as e:
             print("Error al obtener los empleados:", str(e))
-
-    def actualizar_empleados_por_parametros_graficos(self, id):
-        dias = self.diasGrafico.text()
-        print(dias)
-        print(id)
-        if dias and id:
-            self.busquedaPersonalizada.clicked.connect(
-                lambda: self.mostrar_empleados_por_parametros_graficos(dias, id))
-            self.errorIdFecha.setVisible(False)
-        else:
-            "Todo: Mostrar cartel de que falta el dia o el id"
 
     def mostrar_empleados_por_parametros_graficos(self, dias=None, id=None):
 
