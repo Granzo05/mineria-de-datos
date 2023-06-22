@@ -85,8 +85,14 @@ class EmpleadosDatabase:
 
             for row, resultado in enumerate(resultados):
                 for col, valor in enumerate(resultado):
-                    item = QTableWidgetItem(str(valor))
+                    if col == 1:  # Índice de la columna 'FECHA'
+                        fecha = QtCore.QDate.fromString(str(valor), QtCore.Qt.ISODate)
+                        fecha_str = fecha.toString("dd/MM/yyyy")
+                        item = QTableWidgetItem(fecha_str)
+                    else:
+                        item = QTableWidgetItem(str(valor))
                     tablaDatos.setItem(row, col, item)
+
 
             # Ajustar el tamaño de las columnas para que se ajusten al contenido
             tablaDatos.resizeColumnsToContents()
