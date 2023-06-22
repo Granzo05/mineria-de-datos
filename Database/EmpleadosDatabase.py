@@ -96,50 +96,47 @@ class EmpleadosDatabase:
             print("Error al obtener los empleados:", str(e))
 
     def buscar_rendimiento_empleado(self, idEmpleado, fecha_input, tablaDatos):
-        query = "SELECT * FROM empleados_parametros WHERE empleado_id = ?"
-        params = []
-        fecha_final = None
-    
-        fecha_qdate = QtCore.QDate.fromString(fecha_input, "dd/MM/yyyy")
-        if fecha_qdate.isValid() and fecha_qdate.dayOfWeek() < 6:
-            fecha_final = fecha_qdate.toString(QtCore.Qt.ISODate)
-            query += " AND fecha = ?"
-    
-        params.append(idEmpleado)
-        
-        if fecha_final is not None:
-            params.append(fecha_final)
-    
-        try:
-            self.cursor.execute(query, params)
-            resultados = self.cursor.fetchall()
+    query = "SELECT * FROM empleados_parametros WHERE empleado_id = ?"
+    params = [idEmpleado]
+    fecha_final = None
 
-            # Limpiar la tabla antes de agregar nuevos datos
-            tablaDatos.clearContents()
-            tablaDatos.setRowCount(0)
+    fecha_qdate = QtCore.QDate.fromString(fecha_input, "dd/MM/yyyy")
+    if fecha_qdate.isValid() and fecha_qdate.dayOfWeek() < 6:
+        fecha_final = fecha_qdate.toString(QtCore.Qt.ISODate)
+        query += " AND fecha = ?"
+        params.append(fecha_final)
 
-            # Establecer las columnas a mostrar en la tabla
-            columnas = ["ID", "FECHA", "PASOS", "HORAS TRABAJADAS", "ASISTENCIA", "NIVEL DE ESTRES", "ID EMPLEADO"]
-            tablaDatos.setColumnCount(len(columnas))
-            tablaDatos.setHorizontalHeaderLabels(columnas)
+    try:
+        self.cursor.execute(query, params)
+        resultados = self.cursor.fetchall()
 
-            # Calcular la cantidad de filas necesarias para mostrar los resultados
-            num_rows = len(resultados)
+        # Limpiar la tabla antes de agregar nuevos datos
+        tablaDatos.clearContents()
+        tablaDatos.setRowCount(0)
 
-            # Establecer la cantidad de filas en la tabla
-            tablaDatos.setRowCount(num_rows)
+        # Establecer las columnas a mostrar en la tabla
+        columnas = ["ID", "FECHA", "PASOS", "HORAS TRABAJADAS", "ASISTENCIA", "NIVEL DE ESTRES", "ID EMPLEADO"]
+        tablaDatos.setColumnCount(len(columnas))
+        tablaDatos.setHorizontalHeaderLabels(columnas)
 
-            for row, resultado in enumerate(resultados):
-                for col, valor in enumerate(resultado):
-                    item = QTableWidgetItem(str(valor))
-                    tablaDatos.setItem(row, col, item)
+        # Calcular la cantidad de filas necesarias para mostrar los resultados
+        num_rows = len(resultados)
 
-            # Ajustar el tamaño de las columnas para que se ajusten al contenido
-            tablaDatos.resizeColumnsToContents()
+        # Establecer la cantidad de filas en la tabla
+        tablaDatos.setRowCount(num_rows)
 
-        except Exception as e:
-            print("Error al buscar los datos del empleado en la base de datos:", str(e))
-            return []
+        for row, resultado in enumerate(resultados):
+            for col, valor in enumerate(resultado):
+                item = QTableWidgetItem(str(valor))
+                tablaDatos.setItem(row, col, item)
+
+        # Ajustar el tamaño de las columnas para que se ajusten al contenido
+        tablaDatos.resizeColumnsToContents()
+
+    except Exception as e:
+        print("Error al buscar los datos del empleado en la base de datos:", str(e))
+        return []
+
 
     def agregar_empleado(self, nombre, apellido, cargo, turno):
         try:
