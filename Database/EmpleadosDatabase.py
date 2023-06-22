@@ -135,9 +135,6 @@ class EmpleadosDatabase:
         except Exception as e:
             print("Error al buscar los datos del empleado en la base de datos:", str(e))
             return []
-    else:
-        print("Error con el día ingresado")
-        return []
 
     def agregar_empleado(self, nombre, apellido, cargo, turno):
         try:
