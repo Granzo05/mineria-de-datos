@@ -83,6 +83,8 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
             self.errorIdFecha.setVisible(False)
         else:
             self.errorIdFecha.setVisible(True)
+            time.sleep(1)
+            self.errorIdFecha.setVisible(True)
 
     def actualizar_empleados_por_parametros(self):
         apellido = self.buscarApellido.text()
