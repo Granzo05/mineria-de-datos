@@ -293,6 +293,7 @@ class EmpleadosDatabase:
             try:
                 self.cursor.execute(query, params)
                 resultados_db = self.cursor.fetchall()
+                print(resultados_db)
                 return resultados_db
 
             except Exception as e:
