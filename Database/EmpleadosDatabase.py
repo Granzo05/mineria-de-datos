@@ -100,11 +100,10 @@ class EmpleadosDatabase:
         params = [idEmpleado]
         fecha_final = None
 
-        print(fecha_input)
         fecha_qdate = QtCore.QDate.fromString(fecha_input, "dd/MM/yyyy")
         if fecha_qdate.isValid() and fecha_qdate.dayOfWeek() < 6:
             fecha_final = fecha_qdate.toString(QtCore.Qt.ISODate)
-            params.append(fecha_final)
+            #params.append(fecha_final)
             try:
                 self.cursor.execute(query, params)
                 resultados = self.cursor.fetchall()

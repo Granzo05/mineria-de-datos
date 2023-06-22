@@ -30,9 +30,8 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
         self.errorGraficos.setVisible(False)
         self.filtros.stateChanged.connect(self.actualizarFiltros)
 
-        self.buscarRendimiento.clicked.connect(self.buscar_rendimiento_empleado)
-
         self.calendario = QCalendarWidget(self)
+        self.buscarRendimiento.clicked.connect(self.buscar_rendimiento_empleado)
 
         # Campos para buscar Empleados
         self.buscarApellido.textChanged.connect(self.actualizar_empleados_por_parametros)
@@ -49,7 +48,7 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
         with EmpleadosDatabase() as empleados_data:
             empleados_data.obtener_parametros_empleados(self.tablaDatos)
             empleados_data.traer_empleados(self.tablaEmpleados)
-            self.buscarTurno.setText("")
+            self.idRendimiento.setText("")
 
     def salir_screen(self):
         self.close()
@@ -83,8 +82,8 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
             self.buscarTurno.setText("")
 
     def buscar_rendimiento_empleado(self):
-        fechaInput = self.calendario.selectedDate().toString("dd/MM/yyyy")
         id = self.idRendimiento.text()
+        fechaInput = self.fechaRendimiento.text()
 
         if fechaInput and id:
             with EmpleadosDatabase() as empleados_data:
