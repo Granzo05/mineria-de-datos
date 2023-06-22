@@ -1,3 +1,5 @@
+import time
+
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import QDate
 import pandas as pd
@@ -21,16 +23,7 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
         self.buscarApellido.setVisible(False)
         self.buscarCargo.setVisible(False)
         self.buscarTurno.setVisible(False)
-        self.filtroApellido.setVisible(False)
-        self.filtroCargo.setVisible(False)
-        self.filtroTurno.setVisible(False)
-        self.filtros.stateChanged.connect(self.actualizarFiltros)
-
-
-        # Filtros para buscar empleados
-        self.filtroApellido.stateChanged.connect(self.actualizarFiltros)
-        self.filtroCargo.stateChanged.connect(self.actualizarFiltros)
-        self.filtroTurno.stateChanged.connect(self.actualizarFiltros)
+        self.errorGraficos.setVisible(False)
 
         self.buscarRendimiento.clicked.connect(self.buscar_rendimiento_empleado)
 
@@ -64,31 +57,6 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
             self.close()
         except Exception as e:
             print(f"Error al abrir la ventana: {str(e)}")
-
-    def actualizarFiltros(self):
-        if self.filtroApellido.isChecked():
-            self.buscarApellido.setVisible(True)
-        else:
-            self.buscarApellido.setVisible(False)
-
-        if self.filtroCargo.isChecked():
-            self.buscarCargo.setVisible(True)
-        else:
-            self.buscarCargo.setVisible(False)
-
-        if self.filtroTurno.isChecked():
-            self.buscarTurno.setVisible(True)
-        else:
-            self.buscarTurno.setVisible(False)
-
-        if self.filtros.isChecked():
-            self.filtroApellido.setVisible(True)
-            self.filtroCargo.setVisible(True)
-            self.filtroTurno.setVisible(True)
-        else:
-            self.filtroApellido.setVisible(False)
-            self.filtroCargo.setVisible(False)
-            self.filtroTurno.setVisible(False)
 
     def buscar_rendimiento_empleado(self):
         fechaInput = self.fechaRendimiento.text()
@@ -204,6 +172,9 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
 
             except Exception as e:
                 print("Error al obtener los empleados:", str(e))
+                self.errorGraficos.setVisible(True)
+                time.sleep(1)
+                self.errorGraficos.setVisible(False)
         else:
             try:
                 with EmpleadosDatabase() as empleados_data:
@@ -214,6 +185,9 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
                     ids_empleados = empleados_data.filtrar_por_campos_grafico(query, params)
 
             except Exception as e:
+                self.errorGraficos.setVisible(True)
+                time.sleep(1)
+                self.errorGraficos.setVisible(False)
                 print("Error al obtener los empleados:", str(e))
 
             with EmpleadosDatabase() as empleados_data:
