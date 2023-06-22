@@ -39,7 +39,8 @@ class LoginScreen(QtWidgets.QMainWindow):
                 self.abrir_menu()
             else:
                 self.usuario_contra_inc.setVisible(True)
-                print("Usuario o contraseña incorrectos")
+                time.sleep(1)
+                self.usuario_contra_inc.setVisible(False)
 
     def salir_click(self):
         self.close()
