@@ -4,6 +4,7 @@ from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import QDate
 import pandas as pd
 import matplotlib.pyplot as plt
+from PyQt5.QtWidgets import QApplication, QMainWindow, QCalendarWidget
 
 from Database.EmpleadosDatabase import EmpleadosDatabase
 
@@ -16,8 +17,10 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
         self.volver.clicked.connect(lambda: self.volver_screen())
         self.salir.clicked.connect(self.salir_screen)
         self.cerrarSesion.clicked.connect(self.cerrar_sesion)
-        self.ultimos31.clicked.connect(lambda: self.mostrar_empleados_por_parametros_graficos(dias=31, id=self.idRendimiento.text()))
-        self.ultimos14.clicked.connect(lambda: self.mostrar_empleados_por_parametros_graficos(dias=14, id=self.idRendimiento.text()))
+        self.ultimos31.clicked.connect(
+            lambda: self.mostrar_empleados_por_parametros_graficos(dias=31, id=self.idRendimiento.text()))
+        self.ultimos14.clicked.connect(
+            lambda: self.mostrar_empleados_por_parametros_graficos(dias=14, id=self.idRendimiento.text()))
         self.restaurar.clicked.connect(self.cargar_tablas)
 
         self.errorIdFecha.setVisible(False)
@@ -29,7 +32,7 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
 
         self.buscarRendimiento.clicked.connect(self.buscar_rendimiento_empleado)
 
-
+        self.calendario = QCalendarWidget(self)
 
         # Campos para buscar Empleados
         self.buscarApellido.textChanged.connect(self.actualizar_empleados_por_parametros)
@@ -46,6 +49,8 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
         with EmpleadosDatabase() as empleados_data:
             empleados_data.obtener_parametros_empleados(self.tablaDatos)
             empleados_data.traer_empleados(self.tablaEmpleados)
+            self.buscarTurno.setText("")
+
     def salir_screen(self):
         self.close()
 
@@ -78,8 +83,9 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
             self.buscarTurno.setText("")
 
     def buscar_rendimiento_empleado(self):
-        fechaInput = self.fechaRendimiento.text()
+        fechaInput = self.calendario.selectedDate().toString("dd/MM/yyyy")
         id = self.idRendimiento.text()
+
         if fechaInput and id:
             with EmpleadosDatabase() as empleados_data:
                 empleados_data.buscar_rendimiento_empleado(id, fechaInput, self.tablaDatos)
@@ -88,7 +94,7 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
         else:
             self.errorIdFecha.setVisible(True)
             time.sleep(1)
-            self.errorIdFecha.setVisible(True)
+            self.errorIdFecha.setVisible(False)
 
     def actualizar_empleados_por_parametros(self):
         apellido = self.buscarApellido.text()
@@ -128,7 +134,8 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
                 # Obtener los parámetros de los empleados filtrados usando los IDs
                 query_parametros = f"SELECT * FROM empleados_parametros WHERE empleado_id IN ({placeholders})"
                 params_parametros = ids_empleados
-                empleados_data.obtener_parametros_empleados_filtrados(query_parametros, params_parametros, self.tablaDatos)
+                empleados_data.obtener_parametros_empleados_filtrados(query_parametros, params_parametros,
+                                                                      self.tablaDatos)
 
         except Exception as e:
             print("Error al obtener los empleados:", str(e))
