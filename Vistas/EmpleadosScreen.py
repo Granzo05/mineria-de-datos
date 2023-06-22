@@ -201,7 +201,8 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
             "Todo: Mostrar cartel de que falta el dia o el id"
 
     def mostrar_empleados_por_parametros_graficos(self, dias=None, id=None):
-        if dias and id:
+
+        if id:
             try:
                 with EmpleadosDatabase() as empleados_data:
                     query = "SELECT * FROM empleados WHERE 1=1"
@@ -216,6 +217,7 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
 
                     with EmpleadosDatabase() as empleados_data:
                         resultados = empleados_data.filtrar_por_campos_para_graficar(dias, ids_empleados)
+                        print(resultados)
 
                     # Convertir la lista de empleados en un DataFrame de pandas
                     df = pd.DataFrame(resultados,
@@ -272,6 +274,7 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
 
             with EmpleadosDatabase() as empleados_data:
                 resultados = empleados_data.filtrar_por_campos_para_graficar(dias, ids_empleados)
+                print(resultados)
 
             # Convertir la lista de empleados en un DataFrame de pandas
             df = pd.DataFrame(resultados,
