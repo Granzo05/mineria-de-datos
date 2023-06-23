@@ -94,26 +94,25 @@ class EmpleadosDatabase:
         except Exception as e:
             print("Error al obtener los empleados:", str(e))
 
-    def buscar_rendimiento_empleado(self, idEmpleado, fecha_input, tablaDatos):
-
-        query = "SELECT fecha, pasos_realizados, horas_de_trabajo, asistencia, nivel_estres, empleado_id FROM empleados_parametros WHERE empleado_id = ?"
+    def buscar_rendimiento_empleado(self, idEmpleado, tablaDatos):
+        query = "SELECT * FROM empleados WHERE id = ?"
         params = [idEmpleado]
         fecha_final = None
 
-        fecha_qdate = QtCore.QDate.fromString(fecha_input, "dd/MM/yyyy")
+        fecha_qdate = QtCore.QDate.fromString("dd/MM/yyyy")
         if fecha_qdate.isValid() and fecha_qdate.dayOfWeek() < 6:
             fecha_final = fecha_qdate.toString(QtCore.Qt.ISODate)
             #params.append(fecha_final)
             try:
                 self.cursor.execute(query, params)
                 resultados = self.cursor.fetchall()
-
+                columnas = ["ID", "NOMBRE", "APELLIDO", "CARGO", "TURNO"]
                 # Limpiar la tabla antes de agregar nuevos datos
                 tablaDatos.clearContents()
                 tablaDatos.setRowCount(0)
 
                 # Establecer las columnas a mostrar en la tabla
-                columnas = ["FECHA", "PASOS", "HORAS TRABAJADAS", "ASISTENCIA", "NIVEL DE ESTRES", "ID EMPLEADO"]
+
                 tablaDatos.setColumnCount(len(columnas))
                 tablaDatos.setHorizontalHeaderLabels(columnas)
 
@@ -308,7 +307,7 @@ class EmpleadosDatabase:
             print("Error al filtrar por campos en la base de datos:", str(e))
 
     def filtrar_por_campos_empleado(self, id, tablaEmpleados):
-        query = "SELECT * FROM empleados WHERE id = ?"
+        query = "SELECT fecha, pasos_realizados, horas_de_trabajo, asistencia, nivel_estres, empleado_id FROM empleados_parametros WHERE empleado_id = ?"
         try:
             self.cursor.execute(query, (id,))
             resultados = self.cursor.fetchall()
@@ -317,7 +316,8 @@ class EmpleadosDatabase:
             tablaEmpleados.setRowCount(0)
 
             # Establecer las columnas a mostrar en la tabla
-            columnas = ["ID", "NOMBRE", "APELLIDO", "CARGO", "TURNO"]
+            columnas = ["FECHA", "PASOS", "HORAS TRABAJADAS", "ASISTENCIA", "NIVEL DE ESTRES", "ID EMPLEADO"]
+
             tablaEmpleados.setColumnCount(len(columnas))
             tablaEmpleados.setHorizontalHeaderLabels(columnas)
 
