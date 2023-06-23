@@ -40,7 +40,7 @@ class LoginScreen(QtWidgets.QMainWindow):
             else:
                 self.usuario_contra_inc.setVisible(True)
                 self.repaint()
-                time.sleep(0.5)
+                time.sleep(2)
                 self.usuario_contra_inc.setVisible(False)
                 self.repaint()
 

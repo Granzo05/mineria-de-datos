@@ -60,14 +60,14 @@ class AgregarEmpleado(QtWidgets.QMainWindow):
                     self.turnoEmpleado.setText("")
 
                     self.repaint()
-                    time.sleep(0.5)
+                    time.sleep(2)
                     self.addExito.setVisible(False)
                     self.repaint()
             except Exception as e:
                 print("Error al agregar empleado:", str(e))
                 self.errorEmpleado.setVisible(True)
                 self.repaint()
-                time.sleep(0.5)
+                time.sleep(2)
                 self.errorEmpleado.setVisible(False)
                 self.repaint()
         else:
