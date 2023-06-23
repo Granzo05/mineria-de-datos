@@ -4,7 +4,6 @@ from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import QDate
 import pandas as pd
 import matplotlib.pyplot as plt
-from PyQt5.QtWidgets import QApplication, QMainWindow, QCalendarWidget
 
 from Database.EmpleadosDatabase import EmpleadosDatabase
 
@@ -30,7 +29,6 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
         self.errorGraficos.setVisible(False)
         self.filtros.stateChanged.connect(self.actualizarFiltros)
 
-        self.calendario = QCalendarWidget(self)
         self.buscarRendimiento.clicked.connect(self.buscar_rendimiento_empleado)
 
         # Campos para buscar Empleados
@@ -140,7 +138,6 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
             print("Error al obtener los empleados:", str(e))
 
     def mostrar_empleados_por_parametros_graficos(self, dias=None, id=None):
-
         if id:
             try:
                 with EmpleadosDatabase() as empleados_data:
