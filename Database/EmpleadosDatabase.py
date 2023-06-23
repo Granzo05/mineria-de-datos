@@ -300,13 +300,10 @@ class EmpleadosDatabase:
         query = "SELECT fecha, pasos_realizados, horas_de_trabajo, asistencia, nivel_estres, empleado_id FROM empleados_parametros WHERE empleado_id = ? AND fecha = ?"
 
         dia, mes, anio = fecha_input.split("/")
-        print(fecha_input)
         fecha_final = str(int(anio) + 2000) + "-" + mes.zfill(2) + "-" + dia
-        print(fecha_final)
         try:
             self.cursor.execute(query, (idEmpleado, fecha_final))
             resultados = self.cursor.fetchall()
-            print(resultados)
             # Limpiar la tabla antes de agregar nuevos datos
             tablaDatos.clearContents()
             tablaDatos.setRowCount(0)
@@ -329,5 +326,7 @@ class EmpleadosDatabase:
 
             # Ajustar el tamaño de las columnas para que se ajusten al contenido
             tablaDatos.resizeColumnsToContents()
+
+            return resultados
         except Exception as e:
             print("Error al obtener los empleados:", str(e))

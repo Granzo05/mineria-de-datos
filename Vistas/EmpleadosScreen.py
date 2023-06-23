@@ -85,9 +85,13 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
 
         if fechaInput and id:
             with EmpleadosDatabase() as empleados_data:
-                empleados_data.buscar_rendimiento_empleado(id, fechaInput, self.tablaDatos)
+                resultados = empleados_data.buscar_rendimiento_empleado(id, fechaInput, self.tablaDatos)
                 empleados_data.filtrar_por_campos_empleado(id, self.tablaEmpleados)
-                self.errorIdFecha.setVisible(False)
+
+                if len(resultados) == 0:
+                    self.errorIdFecha.setVisible(True)
+                    time.sleep(1)
+                    self.errorIdFecha.setVisible(False)
         else:
             self.errorIdFecha.setVisible(True)
             time.sleep(1)
