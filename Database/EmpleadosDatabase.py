@@ -96,7 +96,7 @@ class EmpleadosDatabase:
 
     def buscar_rendimiento_empleado(self, idEmpleado, fecha_input, tablaDatos):
 
-        query = "SELECT * FROM empleados_parametros WHERE empleado_id = ? AND fecha = ?"
+        query = "SELECT fecha, pasos_realizados, horas_de_trabajo, asistencia, nivel_estres, empleado_id FROM empleados_parametros WHERE empleado_id = ? AND fecha = ?"
         params = [idEmpleado]
         fecha_final = None
 
@@ -113,7 +113,7 @@ class EmpleadosDatabase:
                 tablaDatos.setRowCount(0)
 
                 # Establecer las columnas a mostrar en la tabla
-                columnas = ["ID", "FECHA", "PASOS", "HORAS TRABAJADAS", "ASISTENCIA", "NIVEL DE ESTRES", "ID EMPLEADO"]
+                columnas = ["FECHA", "PASOS", "HORAS TRABAJADAS", "ASISTENCIA", "NIVEL DE ESTRES", "ID EMPLEADO"]
                 tablaDatos.setColumnCount(len(columnas))
                 tablaDatos.setHorizontalHeaderLabels(columnas)
 
@@ -185,7 +185,7 @@ class EmpleadosDatabase:
         try:
             with EmpleadosDatabase() as empleados_data:
                 # Establecer las columnas a mostrar en la tabla
-                columnas = ["ID", "FECHA", "PASOS", "HORAS TRABAJADAS", "ASISTENCIA", "NIVEL DE ESTRES"]
+                columnas = ["FECHA", "PASOS", "HORAS TRABAJADAS", "ASISTENCIA", "NIVEL DE ESTRES", "ID EMPLEADO"]
                 tablaDatos.setColumnCount(len(columnas))
                 tablaDatos.setHorizontalHeaderLabels(columnas)
 
