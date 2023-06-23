@@ -422,6 +422,24 @@ color: rgb(255, 255, 255);</string>
      <string>Restaurar tablas</string>
     </property>
    </widget>
+   <widget class="QLabel" name="noRendimiento">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>210</y>
+      <width>241</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 11pt &quot;Bell MT&quot;;
+                        color: rgb(255, 0, 0);
+                    </string>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;AÚN NO HAY RENDIMIENTO DEL EMPLEADO&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources>
