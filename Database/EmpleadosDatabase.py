@@ -94,45 +94,6 @@ class EmpleadosDatabase:
         except Exception as e:
             print("Error al obtener los empleados:", str(e))
 
-    """
-    def buscar_rendimiento_empleado(self, idEmpleado, fecha_input, tablaDatos):
-        query = "SELECT * FROM empleados_parametros WHERE empleado_id = ? and fecha = ?"
-        params = [idEmpleado]
-        fecha_final = None
-
-        fecha_qdate = QtCore.QDate.fromString(fecha_input, "dd/MM/yyyy")
-        if fecha_qdate.isValid() and fecha_qdate.dayOfWeek() < 6:
-            fecha_final = fecha_qdate.toString(QtCore.Qt.ISODate)
-            params.append(fecha_final)
-            try:
-                self.cursor.execute(query, params)
-                resultados = self.cursor.fetchall()
-                # Limpiar la tabla antes de agregar nuevos datos
-                tablaDatos.clearContents()
-                tablaDatos.setRowCount(0)
-
-                # Establecer las columnas a mostrar en la tabla
-                columnas = ["ID", "FECHA", "PASOS", "HORAS TRABAJADAS", "ASISTENCIA", "NIVEL DE ESTRES", "ID EMPLEADO"]
-                tablaDatos.setColumnCount(len(columnas))
-                tablaDatos.setHorizontalHeaderLabels(columnas)
-
-                # Calcular la cantidad de filas necesarias para mostrar los resultados
-                num_rows = len(resultados)
-
-                # Establecer la cantidad de filas en la tabla
-                tablaDatos.setRowCount(num_rows)
-
-                for row, resultado in enumerate(resultados):
-                    for col, valor in enumerate(resultado):
-                        item = QTableWidgetItem(str(valor))
-                        tablaDatos.setItem(row, col, item)
-
-                # Ajustar el tamaño de las columnas para que se ajusten al contenido
-                tablaDatos.resizeColumnsToContents()
-            except Exception as e:
-                print("Error al obtener los empleados:", str(e))
-    """
-
     def agregar_empleado(self, nombre, apellido, cargo, turno):
         try:
             query = "INSERT INTO empleados (nombre, apellido, cargo, turno) VALUES (?, ?, ?, ?)"
@@ -336,12 +297,12 @@ class EmpleadosDatabase:
             print("Error al obtener los empleados:", str(e))
 
     def buscar_rendimiento_empleado(self, idEmpleado, fecha_input, tablaDatos):
-        query = "SELECT * FROM empleados_parametros WHERE empleado_id = ? AND fecha = ?"
+        query = "SELECT fecha, pasos_realizados, horas_de_trabajo, asistencia, nivel_estres, empleado_id FROM empleados_parametros WHERE empleado_id = ? AND fecha = ?"
         fecha_final = None
-
+        print(fecha_input)
         fecha_qdate = QtCore.QDate.fromString(fecha_input, "dd/MM/yyyy")
         fecha_final = fecha_qdate.toString(QtCore.Qt.ISODate)
-
+        print(fecha_final)
         try:
             self.cursor.execute(query, (idEmpleado, fecha_final))
             resultados = self.cursor.fetchall()
@@ -351,7 +312,7 @@ class EmpleadosDatabase:
             tablaDatos.setRowCount(0)
 
             # Establecer las columnas a mostrar en la tabla
-            columnas = ["ID", "FECHA", "PASOS", "HORAS TRABAJADAS", "ASISTENCIA", "NIVEL DE ESTRES", "ID EMPLEADO"]
+            columnas = ["FECHA", "PASOS", "HORAS TRABAJADAS", "ASISTENCIA", "NIVEL DE ESTRES", "ID EMPLEADO"]
             tablaDatos.setColumnCount(len(columnas))
             tablaDatos.setHorizontalHeaderLabels(columnas)
 

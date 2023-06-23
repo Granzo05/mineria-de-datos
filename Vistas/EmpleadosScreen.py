@@ -186,7 +186,7 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
                         plt.plot(suma_estres.index, suma_estres, label='Nivel de Estrés')
                         plt.xlabel('Fecha')
                         plt.ylabel('Valor')
-                        plt.title('Horas de Trabajo, Asistencia y Nivel de Estrés en los últimos {} días'.format(dias))
+                        plt.title('Horas de Trabajo y Nivel de Estrés en los últimos {} días'.format(dias))
                         plt.xticks(rotation=45)
                         plt.legend()
 
