@@ -335,11 +335,17 @@ class EmpleadosDatabase:
         except Exception as e:
             print("Error al obtener los empleados:", str(e))
 
-    def buscar_rendimiento_empleado(self, idEmpleado, tablaDatos):
-        query = "SELECT * FROM empleados_parametros WHERE id = ?"
+    def buscar_rendimiento_empleado(self, idEmpleado, fecha_input, tablaDatos):
+        query = "SELECT * FROM empleados_parametros WHERE empleado_id = ? AND fecha = ?"
+        fecha_final = None
+
+        fecha_qdate = QtCore.QDate.fromString(fecha_input, "dd/MM/yyyy")
+        fecha_final = fecha_qdate.toString(QtCore.Qt.ISODate)
+
         try:
-            self.cursor.execute(query, (idEmpleado,))
+            self.cursor.execute(query, (idEmpleado, fecha_final))
             resultados = self.cursor.fetchall()
+            print(resultados)
             # Limpiar la tabla antes de agregar nuevos datos
             tablaDatos.clearContents()
             tablaDatos.setRowCount(0)
