@@ -36,7 +36,7 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
         self.buscarCargo.textChanged.connect(self.actualizar_empleados_por_parametros)
         self.buscarTurno.textChanged.connect(self.actualizar_empleados_por_parametros)
 
-        fecha_inicio = QDate(2023, 4, 24)
+        fecha_inicio = QDate(23, 4, 24)
 
         self.fechaRendimiento.setDate(fecha_inicio)
 
@@ -85,7 +85,7 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
 
         if fechaInput and id:
             with EmpleadosDatabase() as empleados_data:
-                empleados_data.buscar_rendimiento_empleado(id, fechaInput, self.tablaDatos)
+                empleados_data.buscar_rendimiento_empleado(id, fechaInput, self.tablaDatos, self.errorGrafico)
                 empleados_data.filtrar_por_campos_empleado(id, self.tablaEmpleados)
                 self.errorIdFecha.setVisible(False)
         else:
@@ -206,11 +206,10 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
 
                     # Obtener los IDs de los empleados que coinciden con los filtros
                     ids_empleados = empleados_data.filtrar_por_campos_grafico(query, params)
-
             except Exception as e:
                 self.errorGraficos.setVisible(True)
                 self.repaint()
-                time.sleep(0.7)
+                time.sleep(0.5)
                 self.errorGraficos.setVisible(False)
                 self.repaint()
                 print("Error al obtener los empleados:", str(e))

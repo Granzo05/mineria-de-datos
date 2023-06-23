@@ -296,7 +296,7 @@ class EmpleadosDatabase:
         except Exception as e:
             print("Error al obtener los empleados:", str(e))
 
-    def buscar_rendimiento_empleado(self, idEmpleado, fecha_input, tablaDatos):
+    def buscar_rendimiento_empleado(self, idEmpleado, fecha_input, tablaDatos, error):
         query = "SELECT fecha, pasos_realizados, horas_de_trabajo, asistencia, nivel_estres, empleado_id FROM empleados_parametros WHERE empleado_id = ? AND fecha = ?"
 
         dia, mes, anio = fecha_input.split("/")
