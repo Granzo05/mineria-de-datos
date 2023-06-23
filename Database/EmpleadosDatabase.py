@@ -298,12 +298,9 @@ class EmpleadosDatabase:
 
     def buscar_rendimiento_empleado(self, idEmpleado, fecha_input, tablaDatos):
         query = "SELECT fecha, pasos_realizados, horas_de_trabajo, asistencia, nivel_estres, empleado_id FROM empleados_parametros WHERE empleado_id = ? AND fecha = ?"
-        fecha_final = None
 
         dia, mes, anio = fecha_input.split("/")
         fecha_final = anio + "-" + mes + "-" + dia
-
-        print(fecha_final)
 
         try:
             self.cursor.execute(query, (idEmpleado, fecha_final))

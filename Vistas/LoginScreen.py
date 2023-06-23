@@ -39,8 +39,10 @@ class LoginScreen(QtWidgets.QMainWindow):
                 self.abrir_menu()
             else:
                 self.usuario_contra_inc.setVisible(True)
+                self.repaint()  # Forzar actualización de la interfaz
                 time.sleep(1)
                 self.usuario_contra_inc.setVisible(False)
+                self.repaint()  # Forzar actualización de la interfaz
 
     def salir_click(self):
         self.close()
