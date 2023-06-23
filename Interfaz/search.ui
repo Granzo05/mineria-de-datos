@@ -335,27 +335,27 @@
    <widget class="QPushButton" name="ultimos31">
     <property name="geometry">
      <rect>
-      <x>880</x>
+      <x>830</x>
       <y>280</y>
-      <width>161</width>
+      <width>261</width>
       <height>51</height>
      </rect>
     </property>
     <property name="text">
-     <string>ULTIMOS 31 DIAS</string>
+     <string>ULTIMOS 31 DIAS DEL EMPLEADO</string>
     </property>
    </widget>
    <widget class="QPushButton" name="ultimos14">
     <property name="geometry">
      <rect>
-      <x>880</x>
+      <x>830</x>
       <y>210</y>
-      <width>161</width>
+      <width>261</width>
       <height>51</height>
      </rect>
     </property>
     <property name="text">
-     <string>ULTIMOS 14 DIAS</string>
+     <string>ULTIMOS 14 DIAS DEL EMPLEADO</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_4">
