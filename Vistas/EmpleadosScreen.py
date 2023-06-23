@@ -94,6 +94,7 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
                     time.sleep(1)
                     self.errorIdFecha.setVisible(False)
                     self.repaint()
+
         else:
             self.errorIdFecha.setVisible(True)
             self.repaint()
@@ -199,7 +200,12 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
                             # Mostrar ambos gráficos
                             plt.tight_layout()
                             plt.show()
-
+                        else:
+                            self.errorGraficos.setVisible(True)
+                            self.repaint()
+                            time.sleep(0.5)
+                            self.errorGraficos.setVisible(False)
+                            self.repaint()
 
             except Exception as e:
                 print("Error al obtener los empleados:", str(e))
@@ -216,6 +222,7 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
 
                     # Obtener los IDs de los empleados que coinciden con los filtros
                     ids_empleados = empleados_data.filtrar_por_campos_grafico(query, params)
+
             except Exception as e:
                 self.errorGraficos.setVisible(True)
                 self.repaint()
@@ -265,3 +272,10 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
                     # Mostrar ambos gráficos
                     plt.tight_layout()
                     plt.show()
+
+                else:
+                    self.errorGraficos.setVisible(True)
+                    self.repaint()
+                    time.sleep(0.5)
+                    self.errorGraficos.setVisible(False)
+                    self.repaint()

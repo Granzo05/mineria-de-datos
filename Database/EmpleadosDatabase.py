@@ -304,29 +304,30 @@ class EmpleadosDatabase:
         try:
             self.cursor.execute(query, (idEmpleado, fecha_final))
             resultados = self.cursor.fetchall()
-            # Limpiar la tabla antes de agregar nuevos datos
-            tablaDatos.clearContents()
-            tablaDatos.setRowCount(0)
 
-            # Establecer las columnas a mostrar en la tabla
-            columnas = ["FECHA", "PASOS", "HORAS TRABAJADAS", "ASISTENCIA", "NIVEL DE ESTRES", "ID EMPLEADO"]
-            tablaDatos.setColumnCount(len(columnas))
-            tablaDatos.setHorizontalHeaderLabels(columnas)
+            if resultados:
+                # Limpiar la tabla antes de agregar nuevos datos
+                tablaDatos.clearContents()
+                tablaDatos.setRowCount(0)
 
-            # Calcular la cantidad de filas necesarias para mostrar los resultados
-            num_rows = len(resultados)
+                # Establecer las columnas a mostrar en la tabla
+                columnas = ["FECHA", "PASOS", "HORAS TRABAJADAS", "ASISTENCIA", "NIVEL DE ESTRES", "ID EMPLEADO"]
+                tablaDatos.setColumnCount(len(columnas))
+                tablaDatos.setHorizontalHeaderLabels(columnas)
 
-            # Establecer la cantidad de filas en la tabla
-            tablaDatos.setRowCount(num_rows)
+                # Calcular la cantidad de filas necesarias para mostrar los resultados
+                num_rows = len(resultados)
 
-            for row, resultado in enumerate(resultados):
-                for col, valor in enumerate(resultado):
-                    item = QTableWidgetItem(str(valor))
-                    tablaDatos.setItem(row, col, item)
+                # Establecer la cantidad de filas en la tabla
+                tablaDatos.setRowCount(num_rows)
 
-            # Ajustar el tamaño de las columnas para que se ajusten al contenido
-            tablaDatos.resizeColumnsToContents()
+                for row, resultado in enumerate(resultados):
+                    for col, valor in enumerate(resultado):
+                        item = QTableWidgetItem(str(valor))
+                        tablaDatos.setItem(row, col, item)
 
+                # Ajustar el tamaño de las columnas para que se ajusten al contenido
+                tablaDatos.resizeColumnsToContents()
             return resultados
         except Exception as e:
             print("Error al obtener los empleados:", str(e))
