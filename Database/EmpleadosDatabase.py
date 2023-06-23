@@ -297,14 +297,14 @@ class EmpleadosDatabase:
             print("Error al obtener los empleados:", str(e))
 
     def buscar_rendimiento_empleado(self, idEmpleado, fecha_input, tablaDatos):
-        query = "SELECT fecha, pasos_realizados, horas_de_trabajo, asistencia, nivel_estres, empleado_id FROM empleados_parametros WHERE empleado_id = ? AND fecha = ?"
+        query = "SELECT fecha, pasos_realizados, horas_de_trabajo, asistencia, nivel_estres, empleado_id FROM empleados_parametros WHERE empleado_id = ?"
 
         dia, mes, anio = fecha_input.split("/")
         print(fecha_input)
         fecha_final = anio + "-" + mes + "-" + dia
         print(fecha_final)
         try:
-            self.cursor.execute(query, (idEmpleado, fecha_final))
+            self.cursor.execute(query, (idEmpleado,))
             resultados = self.cursor.fetchall()
             print(resultados)
             # Limpiar la tabla antes de agregar nuevos datos

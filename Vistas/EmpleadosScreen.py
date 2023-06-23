@@ -36,7 +36,7 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
         self.buscarCargo.textChanged.connect(self.actualizar_empleados_por_parametros)
         self.buscarTurno.textChanged.connect(self.actualizar_empleados_por_parametros)
 
-        fecha_inicio = QDate(23, 4, 24)
+        fecha_inicio = QDate(2023, 4, 24)
 
         self.fechaRendimiento.setDate(fecha_inicio)
 
