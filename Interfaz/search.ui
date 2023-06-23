@@ -425,9 +425,9 @@ color: rgb(255, 255, 255);</string>
    <widget class="QLabel" name="noRendimiento">
     <property name="geometry">
      <rect>
-      <x>380</x>
+      <x>330</x>
       <y>210</y>
-      <width>241</width>
+      <width>341</width>
       <height>21</height>
      </rect>
     </property>
