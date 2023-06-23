@@ -194,8 +194,10 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
             except Exception as e:
                 print("Error al obtener los empleados:", str(e))
                 self.errorGraficos.setVisible(True)
-                time.sleep(1)
+                self.repaint()
+                time.sleep(0.5)
                 self.errorGraficos.setVisible(False)
+                self.repaint()
         else:
             try:
                 with EmpleadosDatabase() as empleados_data:
@@ -207,8 +209,10 @@ class EmpleadosScreen(QtWidgets.QMainWindow):
 
             except Exception as e:
                 self.errorGraficos.setVisible(True)
-                time.sleep(1)
+                self.repaint()
+                time.sleep(0.7)
                 self.errorGraficos.setVisible(False)
+                self.repaint()
                 print("Error al obtener los empleados:", str(e))
 
             with EmpleadosDatabase() as empleados_data:
