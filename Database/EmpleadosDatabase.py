@@ -301,7 +301,7 @@ class EmpleadosDatabase:
 
         dia, mes, anio = fecha_input.split("/")
         print(fecha_input)
-        fecha_final = (anio + 2000) + "-" + mes + "-" + dia
+        fecha_final = str(int(anio) + 2000) + "-" + mes + "-" + dia
         print(fecha_final)
         try:
             self.cursor.execute(query, (idEmpleado, fecha_final))
