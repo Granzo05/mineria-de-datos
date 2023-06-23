@@ -94,6 +94,7 @@ class EmpleadosDatabase:
         except Exception as e:
             print("Error al obtener los empleados:", str(e))
 
+    """
     def buscar_rendimiento_empleado(self, idEmpleado, fecha_input, tablaDatos):
         query = "SELECT * FROM empleados_parametros WHERE empleado_id = ? and fecha = ?"
         params = [idEmpleado]
@@ -130,6 +131,7 @@ class EmpleadosDatabase:
                 tablaDatos.resizeColumnsToContents()
             except Exception as e:
                 print("Error al obtener los empleados:", str(e))
+    """
 
     def agregar_empleado(self, nombre, apellido, cargo, turno):
         try:
@@ -330,5 +332,35 @@ class EmpleadosDatabase:
 
             # Ajustar el tamaño de las columnas para que se ajusten al contenido
             tablaEmpleados.resizeColumnsToContents()
+        except Exception as e:
+            print("Error al obtener los empleados:", str(e))
+
+    def buscar_rendimiento_empleado(self, idEmpleado, tablaDatos):
+        query = "SELECT * FROM empleados_parametros WHERE id = ?"
+        try:
+            self.cursor.execute(query, (idEmpleado,))
+            resultados = self.cursor.fetchall()
+            # Limpiar la tabla antes de agregar nuevos datos
+            tablaDatos.clearContents()
+            tablaDatos.setRowCount(0)
+
+            # Establecer las columnas a mostrar en la tabla
+            columnas = ["ID", "FECHA", "PASOS", "HORAS TRABAJADAS", "ASISTENCIA", "NIVEL DE ESTRES", "ID EMPLEADO"]
+            tablaDatos.setColumnCount(len(columnas))
+            tablaDatos.setHorizontalHeaderLabels(columnas)
+
+            # Calcular la cantidad de filas necesarias para mostrar los resultados
+            num_rows = len(resultados)
+
+            # Establecer la cantidad de filas en la tabla
+            tablaDatos.setRowCount(num_rows)
+
+            for row, resultado in enumerate(resultados):
+                for col, valor in enumerate(resultado):
+                    item = QTableWidgetItem(str(valor))
+                    tablaDatos.setItem(row, col, item)
+
+            # Ajustar el tamaño de las columnas para que se ajusten al contenido
+            tablaDatos.resizeColumnsToContents()
         except Exception as e:
             print("Error al obtener los empleados:", str(e))
