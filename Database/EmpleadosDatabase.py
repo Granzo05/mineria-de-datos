@@ -95,8 +95,7 @@ class EmpleadosDatabase:
             print("Error al obtener los empleados:", str(e))
 
     def buscar_rendimiento_empleado(self, idEmpleado, fecha_input, tablaDatos):
-
-        query = "SELECT fecha, pasos_realizados, horas_de_trabajo, asistencia, nivel_estres, empleado_id FROM empleados_parametros WHERE empleado_id = ? and fecha = ?"
+        query = "SELECT * FROM empleados_parametros WHERE empleado_id = ? and fecha = ?"
         params = [idEmpleado]
         fecha_final = None
 
@@ -107,13 +106,12 @@ class EmpleadosDatabase:
             try:
                 self.cursor.execute(query, params)
                 resultados = self.cursor.fetchall()
-
                 # Limpiar la tabla antes de agregar nuevos datos
                 tablaDatos.clearContents()
                 tablaDatos.setRowCount(0)
 
                 # Establecer las columnas a mostrar en la tabla
-                columnas = ["FECHA", "PASOS", "HORAS TRABAJADAS", "ASISTENCIA", "NIVEL DE ESTRES", "ID EMPLEADO"]
+                columnas = ["ID", "FECHA", "PASOS", "HORAS TRABAJADAS", "ASISTENCIA", "NIVEL DE ESTRES", "ID EMPLEADO"]
                 tablaDatos.setColumnCount(len(columnas))
                 tablaDatos.setHorizontalHeaderLabels(columnas)
 
@@ -130,11 +128,8 @@ class EmpleadosDatabase:
 
                 # Ajustar el tamaño de las columnas para que se ajusten al contenido
                 tablaDatos.resizeColumnsToContents()
-                tablaDatos.repaint()
-
             except Exception as e:
-                print("Error al buscar los datos del empleado en la base de datos:", str(e))
-                return []
+                print("Error al obtener los empleados:", str(e))
 
     def agregar_empleado(self, nombre, apellido, cargo, turno):
         try:
