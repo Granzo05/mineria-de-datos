@@ -74,6 +74,6 @@ class AgregarEmpleado(QtWidgets.QMainWindow):
             print("Todos los campos deben estar completos.")
             self.errorEmpleado.setVisible(True)
             self.repaint()
-            time.sleep(0.5)
+            time.sleep(2)
             self.errorEmpleado.setVisible(False)
             self.repaint()
